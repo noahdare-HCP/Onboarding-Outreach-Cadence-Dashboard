@@ -162,7 +162,7 @@
       <div class="grid2" id="mapGrid"></div>
 
       <h3 style="font-size:13px;margin:22px 0 6px;">Outreach cadence rules</h3>
-      <p class="help">Flags fire on these Status + Sub-Status combinations once a case has sat in the combo for the given number of working days. Matching is case-insensitive.</p>
+      <p class="help">Flags fire on these Status + Sub-Status combinations once a case has sat in the combo for the given number of working days. Matching is case-insensitive and ignores stage suffixes like &ldquo;#1&rdquo;.</p>
       <table class="cadtable" id="cadTable">
         <thead><tr><th>Status</th><th>Sub-Status</th><th>&ldquo;Pending&rdquo; after</th><th>&ldquo;Should be completed&rdquo; after</th></tr></thead>
         <tbody></tbody>
@@ -211,11 +211,11 @@ const FIELDS = [
   { key:'notes',      label:'Sub-Status Notes',  exact:['sub-status notes','sub status notes','notes'], fuzzy:['note','comment'] },
   { key:'created',    label:'Date opened',       exact:['date/time opened','created date','date opened','opened'], fuzzy:['opened','created'] },
   { key:'modified',   label:'Last modified',     exact:['last modified date','date/time last modified','last modified'], fuzzy:['modified','last activity'] },
-  { key:'statusDate', label:'Status changed date (optional)', exact:['status last changed','status changed','status change date','status entered'], fuzzy:['status changed','status entered'] },
+  { key:'statusDate', label:'Status changed date (optional)', exact:['sub-status changed date','status last changed','status changed','status change date','status entered'], fuzzy:['status changed','sub-status changed','status entered'] },
   { key:'timeService',label:'Time service (days, optional)',  exact:['time service (days)','time service','time in service'], fuzzy:['time service'] }
 ];
 
-/* Cadence rules. statuses/subStatuses are lower-case; matched case-insensitively & trimmed. */
+/* Cadence rules. statuses/subStatuses are lower-case; matched case-insensitively, trimmed, and stage suffixes like "#1" are ignored. */
 const CADENCE_RULES = [
   // 1 working day -> Pending, 3 working days -> Should be completed
   { statuses:['new','introduction'], subStatuses:['rescheduled'],                 pending:1, due:3 },
@@ -513,7 +513,7 @@ function checkSchema(){
   } else { banner.classList.remove('show'); }
 }
 function refreshAll(){ renderRepMenu(); fillSelect('statusFilter','status','All statuses'); fillSelect('subFilter','subStatus','All sub-statuses'); renderMapping(); renderCadenceTable(); renderThresholds(); checkSchema(); render(); updateTrackNote(); }
-function updateTrackNote(){ const n=Object.keys(HIST).length; document.getElementById('trackNote').innerHTML=`Status-change tracking: <b>${n}</b> case(s) timed via snapshot history. For exact, shared counts, add a "Status changed date" column to the export and map it in Configuration.`; }
+function updateTrackNote(){ const n=Object.keys(HIST).length; document.getElementById('trackNote').innerHTML=`Status-change tracking: <b>${n}</b> case(s) timed via snapshot history. For exact, shared counts, add a "Sub-Status changed date" column to the export and map it in Configuration.`; }
 
 /* ---------- fetch ---------- */
 async function fetchFromSheet(manual){
@@ -526,8 +526,15 @@ async function fetchFromSheet(manual){
     if(/^\s*<(!doctype|html)/i.test(text)) throw new Error('private-page');
     RAW=parseCSV(text);
     if(!RAW.headers.length) throw new Error('no columns');
-    const haveValid=MAP.status||MAP.subStatus; const colsOk=Object.values(MAP).every(v=>!v||RAW.headers.includes(v));
-    if(!haveValid || !colsOk){ MAP=autoMap(RAW.headers); save(LS.map,MAP); }
+    // Self-healing mapping: fill any unmapped or stale field from a fresh scan, so
+    // newly-added columns (e.g. Status, Case Owner) are picked up automatically while
+    // preserving manual overrides that still point to a real column.
+    const fresh=autoMap(RAW.headers);
+    FIELDS.forEach(f=>{
+      const cur=MAP[f.key];
+      if(!cur || !RAW.headers.includes(cur)){ if(fresh[f.key]) MAP[f.key]=fresh[f.key]; else if(cur) delete MAP[f.key]; }
+    });
+    save(LS.map,MAP);
     const asOf=parseDate(document.getElementById('asOf').value)||todayLocal();
     updateHistory(buildRecords(),asOf);
     document.getElementById('loadedInfo').textContent=`${RAW.rows.length} open cases · live from Salesforce sheet`;
