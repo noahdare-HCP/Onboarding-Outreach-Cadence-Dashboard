@@ -343,8 +343,9 @@ function norm(s){ return (s||'').toLowerCase().trim(); }
 function cadenceFor(status, subStatus, workdays){
   if(workdays==null) return null;
   const st=norm(status), sub=norm(subStatus);
+  const stBase=st.replace(/\s*#\d+\s*$/,''); // "coaching #1" -> "coaching"
   for(const r of CADENCE_RULES){
-    if(r.statuses.includes(st) && r.subStatuses.includes(sub)){
+    if((r.statuses.includes(st)||r.statuses.includes(stBase)) && r.subStatuses.includes(sub)){
       if(workdays>=r.due) return {state:'due', label:'Outreach cadence should be completed', rule:r};
       if(workdays>=r.pending) return {state:'pending', label:'Pending outreach cadence', rule:r};
       return {state:'within', label:'', rule:r}; // matched a rule but below first trigger
