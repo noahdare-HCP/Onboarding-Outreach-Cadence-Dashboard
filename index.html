@@ -6,168 +6,113 @@
 <title>Onboarding Outreach Cadence Dashboard</title>
 <style>
   :root {
-    --bg: #f4f6f9;
-    --panel: #ffffff;
-    --ink: #1c2733;
-    --muted: #67758a;
-    --line: #e2e8f0;
-    --brand: #2563eb;
-    --brand-dark: #1d4ed8;
-    --ok: #16a34a;
-    --ok-bg: #dcfce7;
-    --caution: #b45309;
-    --caution-bg: #fef3c7;
-    --urgent: #b91c1c;
-    --urgent-bg: #fee2e2;
-    --chip: #eef2f7;
-    --shadow: 0 1px 3px rgba(16,24,40,.08), 0 1px 2px rgba(16,24,40,.04);
+    --bg: #f4f6f9; --panel: #fff; --ink: #1c2733; --muted: #67758a; --line: #e2e8f0;
+    --brand: #2563eb; --brand-dark: #1d4ed8;
+    --ok: #16a34a; --ok-bg: #dcfce7;
+    --caution: #b45309; --caution-bg: #fef3c7;
+    --urgent: #b91c1c; --urgent-bg: #fee2e2;
+    --chip: #eef2f7; --shadow: 0 1px 3px rgba(16,24,40,.08), 0 1px 2px rgba(16,24,40,.04);
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    font-size: 14px;
-    line-height: 1.45;
-  }
-  header.app {
-    background: linear-gradient(180deg,#1e293b,#0f172a);
-    color: #fff;
-    padding: 18px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  header.app h1 { font-size: 18px; margin: 0; font-weight: 650; letter-spacing: .2px; }
-  header.app .sub { font-size: 12px; color: #b6c2d4; margin-top: 3px; }
-  .topactions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .wrap { max-width: 1500px; margin: 0 auto; padding: 18px 24px 60px; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.45; }
+  header.app { background:linear-gradient(180deg,#1e293b,#0f172a); color:#fff; padding:18px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  header.app h1 { font-size:18px; margin:0; font-weight:650; letter-spacing:.2px; }
+  header.app .sub { font-size:12px; color:#b6c2d4; margin-top:3px; }
+  .topactions { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .wrap { max-width:1600px; margin:0 auto; padding:18px 24px 60px; }
 
-  button, .btn {
-    font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid var(--line);
-    background: #fff; color: var(--ink); padding: 8px 14px; font-weight: 550;
-    transition: background .12s, border-color .12s;
-  }
-  button:hover { background: #f8fafc; }
-  .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
-  .btn.primary:hover { background: var(--brand-dark); }
-  .btn.ghost-light { background: transparent; border-color: #475569; color: #e2e8f0; }
-  .btn.ghost-light:hover { background: rgba(255,255,255,.08); }
-  .btn.sm { padding: 5px 10px; font-size: 12px; }
+  button,.btn { font:inherit; cursor:pointer; border-radius:8px; border:1px solid var(--line); background:#fff; color:var(--ink); padding:8px 14px; font-weight:550; transition:background .12s,border-color .12s; }
+  button:hover { background:#f8fafc; }
+  .btn.primary { background:var(--brand); border-color:var(--brand); color:#fff; }
+  .btn.primary:hover { background:var(--brand-dark); }
+  .btn.ghost-light { background:transparent; border-color:#475569; color:#e2e8f0; }
+  .btn.ghost-light:hover { background:rgba(255,255,255,.08); }
+  .btn.sm { padding:5px 10px; font-size:12px; }
 
-  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
-  .panel + .panel { margin-top: 16px; }
-  .panel-h {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 16px; border-bottom: 1px solid var(--line); cursor: pointer; user-select: none;
-  }
-  .panel-h h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin: 0; }
-  .panel-b { padding: 16px; }
-  .collapsed .panel-b { display: none; }
-  .caret { transition: transform .15s; color: var(--muted); }
-  .collapsed .caret { transform: rotate(-90deg); }
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); }
+  .panel + .panel { margin-top:16px; }
+  .panel-h { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--line); cursor:pointer; user-select:none; }
+  .panel-h h2 { font-size:13px; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:0; }
+  .panel-b { padding:16px; }
+  .collapsed .panel-b { display:none; }
+  .caret { transition:transform .15s; color:var(--muted); }
+  .collapsed .caret { transform:rotate(-90deg); }
 
-  /* Cards */
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 12px; margin-bottom: 16px; }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow); }
-  .card .v { font-size: 26px; font-weight: 700; line-height: 1.1; }
-  .card .l { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .card.urgent .v { color: var(--urgent); }
-  .card.caution .v { color: var(--caution); }
+  .banner { background:#fff7ed; border:1px solid #fdba74; color:#9a3412; border-radius:10px; padding:10px 14px; font-size:13px; margin-bottom:16px; display:none; }
+  .banner.show { display:block; }
 
-  /* Filters */
-  .filters { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
-  .field { display: flex; flex-direction: column; gap: 4px; }
-  .field label { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); font-weight: 600; }
-  input[type=text], select {
-    font: inherit; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); min-width: 160px;
-  }
-  .multi { position: relative; }
-  .multi-toggle { min-width: 200px; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-  .multi-menu {
-    position: absolute; z-index: 30; top: calc(100% + 4px); left: 0; background: #fff; border: 1px solid var(--line);
-    border-radius: 10px; box-shadow: 0 8px 24px rgba(16,24,40,.14); padding: 6px; min-width: 240px; max-height: 320px; overflow:auto; display: none;
-  }
-  .multi.open .multi-menu { display: block; }
-  .multi-menu .row { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; cursor: pointer; }
-  .multi-menu .row:hover { background: #f1f5f9; }
-  .multi-menu .tools { display: flex; gap: 6px; padding: 4px 4px 8px; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:16px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow); }
+  .card .v { font-size:26px; font-weight:700; line-height:1.1; }
+  .card .l { font-size:12px; color:var(--muted); margin-top:4px; }
+  .card.urgent .v { color:var(--urgent); }
+  .card.caution .v { color:var(--caution); }
 
-  /* Table */
-  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); background: #fff; }
-  table { border-collapse: collapse; width: 100%; font-size: 13px; }
-  thead th {
-    position: sticky; top: 0; background: #f8fafc; text-align: left; padding: 10px 12px; font-size: 11px;
-    text-transform: uppercase; letter-spacing: .5px; color: var(--muted); border-bottom: 1px solid var(--line); cursor: pointer; white-space: nowrap;
-  }
-  thead th .arrow { font-size: 10px; color: var(--brand); }
-  tbody td { padding: 10px 12px; border-bottom: 1px solid #eef2f7; vertical-align: top; }
-  tbody tr:hover { background: #f8fafc; }
-  tbody tr.risk-urgent { box-shadow: inset 3px 0 0 var(--urgent); }
-  tbody tr.risk-caution { box-shadow: inset 3px 0 0 var(--caution); }
-  .badge { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 650; white-space: nowrap; }
-  .badge.ok { background: var(--ok-bg); color: var(--ok); }
-  .badge.caution { background: var(--caution-bg); color: var(--caution); }
-  .badge.urgent { background: var(--urgent-bg); color: var(--urgent); }
-  .daycell { font-weight: 700; font-size: 15px; }
-  .chip { display:inline-block; background: var(--chip); border-radius: 6px; padding: 1px 7px; font-size: 12px; color: #334155; }
-  .summary { color: #334155; }
-  .summary .more { color: var(--brand); cursor: pointer; font-size: 12px; font-weight: 600; }
-  .notesfull { display:none; margin-top: 6px; color: var(--muted); font-size: 12px; white-space: pre-wrap; border-left: 2px solid var(--line); padding-left: 8px; }
-  .notesfull.show { display: block; }
-  .empty { padding: 50px; text-align: center; color: var(--muted); }
-  .src-tag { font-size: 10px; color: var(--muted); display:block; margin-top:2px; }
+  .filters { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; }
+  .field { display:flex; flex-direction:column; gap:4px; }
+  .field label { font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); font-weight:600; }
+  input[type=text],input[type=date],select { font:inherit; padding:7px 10px; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink); min-width:150px; }
+  .multi { position:relative; }
+  .multi-toggle { min-width:200px; text-align:left; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .multi-menu { position:absolute; z-index:30; top:calc(100% + 4px); left:0; background:#fff; border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 24px rgba(16,24,40,.14); padding:6px; min-width:260px; max-height:340px; overflow:auto; display:none; }
+  .multi.open .multi-menu { display:block; }
+  .multi-menu .row { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:6px; cursor:pointer; }
+  .multi-menu .row:hover { background:#f1f5f9; }
+  .multi-menu .tools { display:flex; gap:6px; padding:4px 4px 8px; border-bottom:1px solid var(--line); margin-bottom:6px; }
 
-  /* config table */
-  table.cfg { width: auto; font-size: 13px; }
-  table.cfg th, table.cfg td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: left; }
-  table.cfg input[type=number] { width: 72px; padding: 5px 8px; border:1px solid var(--line); border-radius: 6px; }
-  .help { font-size: 12px; color: var(--muted); margin: 0 0 12px; }
-  .grid2 { display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 12px; }
+  .tablewrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); background:#fff; }
+  table { border-collapse:collapse; width:100%; font-size:13px; }
+  thead th { position:sticky; top:0; background:#f8fafc; text-align:left; padding:10px 12px; font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); border-bottom:1px solid var(--line); cursor:pointer; white-space:nowrap; }
+  thead th .arrow { font-size:10px; color:var(--brand); }
+  tbody td { padding:10px 12px; border-bottom:1px solid #eef2f7; vertical-align:top; }
+  tbody tr:hover { background:#f8fafc; }
+  tbody tr.sev-urgent { box-shadow:inset 3px 0 0 var(--urgent); }
+  tbody tr.sev-caution { box-shadow:inset 3px 0 0 var(--caution); }
+  .badge { display:inline-block; padding:2px 9px; border-radius:999px; font-size:12px; font-weight:650; white-space:nowrap; }
+  .badge.ok { background:var(--ok-bg); color:var(--ok); }
+  .badge.caution { background:var(--caution-bg); color:var(--caution); }
+  .badge.urgent { background:var(--urgent-bg); color:var(--urgent); }
+  .cadence-note { font-size:11px; color:var(--muted); margin-top:3px; }
+  .daycell { font-weight:700; font-size:15px; }
+  .chip { display:inline-block; background:var(--chip); border-radius:6px; padding:1px 7px; font-size:12px; color:#334155; }
+  .mono { font-variant-numeric:tabular-nums; color:#475569; }
+  .summary { color:#334155; }
+  .summary .more { color:var(--brand); cursor:pointer; font-size:12px; font-weight:600; }
+  .notesfull { display:none; margin-top:6px; color:var(--muted); font-size:12px; white-space:pre-wrap; border-left:2px solid var(--line); padding-left:8px; }
+  .notesfull.show { display:block; }
+  .empty { padding:50px; text-align:center; color:var(--muted); }
+  .src-tag { font-size:10px; color:var(--muted); display:block; margin-top:2px; }
+
+  table.cfg { width:auto; font-size:13px; }
+  table.cfg th, table.cfg td { padding:6px 10px; border-bottom:1px solid var(--line); text-align:left; }
+  table.cfg input[type=number] { width:72px; padding:5px 8px; border:1px solid var(--line); border-radius:6px; }
+  .help { font-size:12px; color:var(--muted); margin:0 0 12px; }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
   .mapfield { display:flex; flex-direction:column; gap:4px; }
-  .mapfield label { font-size:11px; font-weight:600; color: var(--muted); text-transform: uppercase; letter-spacing:.4px; }
-  .pill-row { display:flex; gap:8px; flex-wrap: wrap; align-items:center; }
-  .asof input { padding: 7px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; }
-  .footnote { font-size: 11px; color: var(--muted); margin-top: 10px; }
-  a { color: var(--brand); }
+  .mapfield label { font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; }
+  .footnote { font-size:11px; color:var(--muted); margin-top:10px; }
+  a { color:var(--brand); }
   .hidden { display:none !important; }
+  .cadtable { font-size:12px; border-collapse:collapse; }
+  .cadtable th,.cadtable td { border:1px solid var(--line); padding:5px 8px; text-align:left; }
 </style>
 </head>
 <body>
 <header class="app">
   <div>
     <h1>Onboarding Outreach Cadence Dashboard</h1>
-    <div class="sub" id="loadedInfo">No data loaded yet &middot; load a Salesforce case export to begin</div>
+    <div class="sub" id="loadedInfo">Connecting to live Salesforce sheet&hellip;</div>
   </div>
   <div class="topactions">
-    <label class="btn ghost-light sm" for="fileInput">Load export (CSV)</label>
-    <input id="fileInput" type="file" accept=".csv,text/csv" class="hidden" />
-    <button class="btn ghost-light sm" id="sampleBtn">Load sample data</button>
-    <button class="btn ghost-light sm" id="resetHistBtn" title="Clear stored status-change history">Reset tracking</button>
+    <span id="sheetStatus" style="font-size:12px;color:#b6c2d4;"></span>
+    <button class="btn primary sm" id="sheetRefresh">Refresh from Sheet</button>
   </div>
 </header>
 
 <div class="wrap">
 
-  <!-- Connect Google Sheet -->
-  <div class="panel" id="connectPanel" style="margin-bottom:16px;">
-    <div class="panel-b" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
-      <div class="field" style="flex:1;min-width:300px;">
-        <label>Google Sheet link (auto-pull)</label>
-        <input type="text" id="sheetUrl" placeholder="Paste your Google Sheet URL (published-to-web CSV recommended)&hellip;" />
-      </div>
-      <button class="btn primary" id="sheetRefresh">Refresh from Sheet</button>
-      <label style="display:flex;gap:6px;align-items:center;font-size:13px;white-space:nowrap;">
-        <input type="checkbox" id="sheetAuto" /> Auto-pull when opened
-      </label>
-      <span id="sheetStatus" style="font-size:12px;color:var(--muted);"></span>
-    </div>
-  </div>
+  <div class="banner" id="banner"></div>
 
-  <!-- Summary cards -->
   <div class="cards" id="cards"></div>
 
   <!-- Filters -->
@@ -178,32 +123,30 @@
           <label>Rep (multi-select)</label>
           <button class="multi-toggle" id="repToggle"><span id="repLabel">All reps</span><span class="caret">&#9662;</span></button>
           <div class="multi-menu" id="repMenu">
-            <div class="tools">
-              <button class="btn sm" id="repAll">Select all</button>
-              <button class="btn sm" id="repNone">Clear</button>
-            </div>
+            <div class="tools"><button class="btn sm" id="repAll">Select all</button><button class="btn sm" id="repNone">Clear</button></div>
             <div id="repList"></div>
           </div>
         </div>
         <div class="field">
-          <label>Risk level</label>
+          <label>Risk / cadence</label>
           <select id="riskFilter">
             <option value="all">All</option>
+            <option value="cadence">Needs cadence action</option>
             <option value="caution">Caution &amp; up</option>
             <option value="urgent">Urgent only</option>
           </select>
         </div>
         <div class="field">
-          <label>Status</label>
-          <select id="statusFilter"><option value="all">All statuses</option></select>
+          <label>Status</label><select id="statusFilter"><option value="all">All statuses</option></select>
         </div>
         <div class="field">
-          <label>Search</label>
-          <input type="text" id="search" placeholder="Case #, customer, notes&hellip;" />
+          <label>Sub-status</label><select id="subFilter"><option value="all">All sub-statuses</option></select>
         </div>
-        <div class="field asof">
-          <label>As of date</label>
-          <input type="date" id="asOf" />
+        <div class="field">
+          <label>Search</label><input type="text" id="search" placeholder="Org ID, case #, customer, notes&hellip;" />
+        </div>
+        <div class="field">
+          <label>As of date</label><input type="date" id="asOf" />
         </div>
       </div>
     </div>
@@ -211,39 +154,34 @@
 
   <!-- Config -->
   <div class="panel collapsed" id="cfgPanel">
-    <div class="panel-h" data-toggle="cfgPanel">
-      <h2>Configuration &mdash; column mapping &amp; risk thresholds</h2>
-      <span class="caret">&#9662;</span>
-    </div>
+    <div class="panel-h" data-toggle="cfgPanel"><h2>Configuration &mdash; column mapping, cadence rules &amp; risk thresholds</h2><span class="caret">&#9662;</span></div>
     <div class="panel-b">
-      <p class="help">Map your export's columns and set per-status working-day thresholds. Settings are saved in this browser, so you only do it once. Working days = Mon&ndash;Fri only (weekends excluded).</p>
+      <p class="help">Working days = Mon&ndash;Fri only (weekends excluded). The day count uses status-change tracking (it resets each time a case's status/sub-status changes); before any change is observed it falls back to days since the case opened, labelled accordingly.</p>
 
-      <h3 style="font-size:13px;margin:4px 0 8px;color:var(--ink);">Column mapping</h3>
+      <h3 style="font-size:13px;margin:4px 0 8px;">Column mapping</h3>
       <div class="grid2" id="mapGrid"></div>
 
-      <h3 style="font-size:13px;margin:22px 0 4px;color:var(--ink);">Per-status risk thresholds (working days in status)</h3>
-      <p class="help">Caution highlights a case; Urgent flags it for action now. Edit any row; defaults apply to statuses not listed.</p>
-      <div class="pill-row" style="margin-bottom:10px;">
-        <span class="chip">Default caution: <input type="number" id="defCaution" min="1" style="width:60px;margin-left:4px;" /></span>
-        <span class="chip">Default urgent: <input type="number" id="defUrgent" min="1" style="width:60px;margin-left:4px;" /></span>
-      </div>
-      <table class="cfg" id="cfgTable">
-        <thead><tr><th>Status</th><th>Caution &ge;</th><th>Urgent &ge;</th></tr></thead>
+      <h3 style="font-size:13px;margin:22px 0 6px;">Outreach cadence rules</h3>
+      <p class="help">Flags fire on these Status + Sub-Status combinations once a case has sat in the combo for the given number of working days. Matching is case-insensitive.</p>
+      <table class="cadtable" id="cadTable">
+        <thead><tr><th>Status</th><th>Sub-Status</th><th>&ldquo;Pending&rdquo; after</th><th>&ldquo;Should be completed&rdquo; after</th></tr></thead>
         <tbody></tbody>
       </table>
-      <p class="footnote">Tip: blocked / waiting-on-customer statuses usually warrant tighter thresholds.</p>
+
+      <h3 style="font-size:13px;margin:22px 0 4px;">Per-status risk thresholds (for cases outside the cadence rules)</h3>
+      <p class="help">Surfaces cases sitting too long in any status. Edit any row; defaults apply to statuses not listed.</p>
+      <div style="margin-bottom:10px;">
+        <span class="chip">Default caution: <input type="number" id="defCaution" min="1" style="width:60px;margin-left:4px;" /></span>
+        <span class="chip" style="margin-left:8px;">Default urgent: <input type="number" id="defUrgent" min="1" style="width:60px;margin-left:4px;" /></span>
+      </div>
+      <table class="cfg" id="cfgTable"><thead><tr><th>Status</th><th>Caution &ge;</th><th>Urgent &ge;</th></tr></thead><tbody></tbody></table>
+      <p class="footnote"><a id="resetHist" href="javascript:void(0)">Reset status-change tracking</a> &mdash; restarts day counts from the next refresh.</p>
     </div>
   </div>
 
-  <!-- Table -->
   <div class="panel" style="margin-top:16px;">
-    <div class="tablewrap">
-      <table id="caseTable">
-        <thead><tr id="theadRow"></tr></thead>
-        <tbody id="tbody"></tbody>
-      </table>
-    </div>
-    <div class="empty" id="emptyState">Load a Salesforce case export (CSV) or click <b>Load sample data</b> to preview the dashboard.</div>
+    <div class="tablewrap"><table id="caseTable"><thead><tr id="theadRow"></tr></thead><tbody id="tbody"></tbody></table></div>
+    <div class="empty" id="emptyState">Connecting to the live sheet&hellip;</div>
   </div>
 
   <p class="footnote" id="trackNote"></p>
@@ -251,551 +189,374 @@
 
 <script>
 /* ============================================================
-   Onboarding Outreach Cadence Dashboard
-   Self-contained. No external dependencies.
+   Onboarding Outreach Cadence Dashboard  (v2)
    ============================================================ */
 
+// Live Salesforce export (gviz CSV endpoint, gid=0). Baked in so reps don't configure anything.
+const EMBEDDED_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1OKNFZWnoGhhxqPfFMQRdarzTZqQ9Ygyq70ssrsiqxsA/gviz/tq?tqx=out:csv&gid=0';
+
 const LS = {
-  map: 'oocd_map_v1',
-  thresholds: 'oocd_thresholds_v1',
-  defaults: 'oocd_defaults_v1',
-  reps: 'oocd_reps_v1',
-  history: 'oocd_history_v1',  // {caseId: {status, subStatus, firstSeen, lastSeen}}
-  sheetUrl: 'oocd_sheeturl_v1',
-  sheetAuto: 'oocd_sheetauto_v1'
+  map:'oocd_map_v2', thresholds:'oocd_thresholds_v2', defaults:'oocd_defaults_v2',
+  reps:'oocd_reps_v2', history:'oocd_history_v2'
 };
 
+/* Fields the dashboard understands. Two-pass mapping: exact header match first, then guarded fuzzy. */
 const FIELDS = [
-  { key: 'caseNumber', label: 'Case #', hints: ['case number','casenumber','case #','case','number','case id','caseid'] },
-  { key: 'customer',   label: 'Customer / Account', hints: ['account name','account','customer','company','contact name','contact'] },
-  { key: 'rep',        label: 'Rep / Owner', hints: ['case owner','owner','assigned','rep','agent','owner full name','owner name'] },
-  { key: 'status',     label: 'Status', hints: ['status','case status'] },
-  { key: 'subStatus',  label: 'Sub-Status', hints: ['sub-status','sub status','substatus','reason','stage'] },
-  { key: 'notes',      label: 'Sub-Status Notes', hints: ['sub-status notes','sub status notes','substatus notes','notes','status notes','comments','description'] },
-  { key: 'statusDate', label: 'Status changed date (optional)', hints: ['status last changed','status changed','status change date','status entered','last status change'] },
-  { key: 'created',    label: 'Created date', hints: ['date/time opened','created date','opened','date opened','create date','created'] },
-  { key: 'modified',   label: 'Last modified date', hints: ['last modified','date/time last modified','modified','last activity'] }
+  { key:'orgId',      label:'Org ID',            exact:['org id','organization id','orgid'],            fuzzy:['org id','orgid'] },
+  { key:'caseNumber', label:'Case #',            exact:['case number','case #','case id','casenumber'], fuzzy:['case number','case #','case id'] },
+  { key:'customer',   label:'Customer / Account',exact:['account name','account','customer','company'], fuzzy:['account','customer','company'] },
+  { key:'rep',        label:'Rep / Case Owner',  exact:['case owner','owner','owner full name','assigned to','rep'], fuzzy:['owner','assigned','agent'], notFuzzy:['account','plan'] },
+  { key:'status',     label:'Status',            exact:['status','case status'],                        fuzzy:['status'], notFuzzy:['sub','note'] },
+  { key:'subStatus',  label:'Sub-Status',        exact:['sub-status','sub status','substatus'],         fuzzy:['sub-status','sub status','substatus'], notFuzzy:['note'] },
+  { key:'notes',      label:'Sub-Status Notes',  exact:['sub-status notes','sub status notes','notes'], fuzzy:['note','comment'] },
+  { key:'created',    label:'Date opened',       exact:['date/time opened','created date','date opened','opened'], fuzzy:['opened','created'] },
+  { key:'modified',   label:'Last modified',     exact:['last modified date','date/time last modified','last modified'], fuzzy:['modified','last activity'] },
+  { key:'statusDate', label:'Status changed date (optional)', exact:['status last changed','status changed','status change date','status entered'], fuzzy:['status changed','status entered'] },
+  { key:'timeService',label:'Time service (days, optional)',  exact:['time service (days)','time service','time in service'], fuzzy:['time service'] }
 ];
 
-let RAW = { headers: [], rows: [] };   // parsed CSV
+/* Cadence rules. statuses/subStatuses are lower-case; matched case-insensitively & trimmed. */
+const CADENCE_RULES = [
+  // 1 working day -> Pending, 3 working days -> Should be completed
+  { statuses:['new','introduction'], subStatuses:['rescheduled'],                 pending:1, due:3 },
+  { statuses:['coaching'],           subStatuses:['waiting for pro'],             pending:1, due:3 },
+  { statuses:['coaching'],           subStatuses:['rescheduled'],                 pending:1, due:3 },
+  // 2 working days -> Pending, 6 working days -> Should be completed
+  { statuses:['onboarding'],         subStatuses:['waiting for pro'],             pending:2, due:6 },
+  { statuses:['onboarding'],         subStatuses:['process build in progress'],   pending:2, due:6 },
+  { statuses:['data confirmation'],  subStatuses:['process build in progress'],   pending:2, due:6 },
+  { statuses:['coaching'],           subStatuses:['additional call required'],    pending:2, due:6 }
+];
+
+let RAW = { headers:[], rows:[] };
 let MAP = load(LS.map, {});
-let TH  = load(LS.thresholds, {});     // {statusName: {caution, urgent}}
-let DEF = load(LS.defaults, { caution: 5, urgent: 10 });
-let SEL_REPS = load(LS.reps, null);    // null = all
+let TH  = load(LS.thresholds, {});
+let DEF = load(LS.defaults, { caution:5, urgent:10 });
+let SEL_REPS = load(LS.reps, null);
 let HIST = load(LS.history, {});
-let sortKey = 'workdays';
-let sortDir = 'desc';
+let sortKey = 'risk', sortDir = 'desc';
 
-/* ---------- storage helpers ---------- */
-function load(k, fallback){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; } }
-function save(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+function load(k,f){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):f; }catch(e){ return f; } }
+function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
 
-/* ---------- CSV parser (handles quotes, commas, newlines) ---------- */
+/* ---------- CSV parser ---------- */
 function parseCSV(text){
-  text = text.replace(/^﻿/, '');            // strip BOM
-  const rows = []; let row = []; let field = ''; let i = 0; let inQ = false;
-  while (i < text.length){
-    const c = text[i];
-    if (inQ){
-      if (c === '"'){
-        if (text[i+1] === '"'){ field += '"'; i += 2; continue; }
-        inQ = false; i++; continue;
-      }
-      field += c; i++; continue;
-    }
-    if (c === '"'){ inQ = true; i++; continue; }
-    if (c === ','){ row.push(field); field=''; i++; continue; }
-    if (c === '\r'){ i++; continue; }
-    if (c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; i++; continue; }
-    field += c; i++;
+  text = text.replace(/^﻿/, '');
+  const rows=[]; let row=[],field='',i=0,inQ=false;
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){ if(c==='"'){ if(text[i+1]==='"'){field+='"';i+=2;continue;} inQ=false;i++;continue;} field+=c;i++;continue; }
+    if(c==='"'){ inQ=true;i++;continue; }
+    if(c===','){ row.push(field);field='';i++;continue; }
+    if(c==='\r'){ i++;continue; }
+    if(c==='\n'){ row.push(field);rows.push(row);row=[];field='';i++;continue; }
+    field+=c;i++;
   }
-  if (field.length || row.length){ row.push(field); rows.push(row); }
-  // drop fully-empty trailing rows
-  const cleaned = rows.filter(r => r.some(x => (x||'').trim() !== ''));
-  if (!cleaned.length) return { headers: [], rows: [] };
-  const headers = cleaned[0].map(h => (h||'').trim());
-  const objs = cleaned.slice(1).map(r => {
-    const o = {}; headers.forEach((h, idx) => o[h] = (r[idx] !== undefined ? r[idx] : '').trim()); return o;
-  });
-  return { headers, rows: objs };
+  if(field.length||row.length){ row.push(field); rows.push(row); }
+  const cleaned=rows.filter(r=>r.some(x=>(x||'').trim()!==''));
+  if(!cleaned.length) return {headers:[],rows:[]};
+  const headers=cleaned[0].map(h=>(h||'').trim());
+  const objs=cleaned.slice(1).map(r=>{ const o={}; headers.forEach((h,idx)=>o[h]=(r[idx]!==undefined?r[idx]:'').trim()); return o; });
+  return { headers, rows:objs };
 }
 
-/* ---------- auto-map columns ---------- */
+/* ---------- two-pass auto-map ---------- */
 function autoMap(headers){
-  const lc = headers.map(h => h.toLowerCase().trim());
+  const lc = headers.map(h=>h.toLowerCase().trim());
   const used = new Set();
   const m = {};
-  FIELDS.forEach(f => {
-    let best = '';
-    // exact-ish hint match
-    for (const hint of f.hints){
-      const idx = lc.findIndex((h,j) => !used.has(headers[j]) && h === hint);
-      if (idx >= 0){ best = headers[idx]; break; }
+  // pass 1: exact
+  FIELDS.forEach(f=>{
+    for(const hint of f.exact){
+      const idx = lc.findIndex((h,j)=>!used.has(headers[j]) && h===hint);
+      if(idx>=0){ m[f.key]=headers[idx]; used.add(headers[idx]); break; }
     }
-    if (!best){
-      for (const hint of f.hints){
-        const idx = lc.findIndex((h,j) => !used.has(headers[j]) && h.includes(hint));
-        if (idx >= 0){ best = headers[idx]; break; }
-      }
+  });
+  // pass 2: guarded fuzzy for anything still unmapped
+  FIELDS.forEach(f=>{
+    if(m[f.key]) return;
+    for(const hint of (f.fuzzy||[])){
+      const idx = lc.findIndex((h,j)=>{
+        if(used.has(headers[j])) return false;
+        if(!h.includes(hint)) return false;
+        if(f.notFuzzy && f.notFuzzy.some(n=>h.includes(n))) return false;
+        return true;
+      });
+      if(idx>=0){ m[f.key]=headers[idx]; used.add(headers[idx]); break; }
     }
-    if (best){ m[f.key] = best; used.add(best); }
   });
   return m;
 }
 
-/* ---------- date parsing ---------- */
+/* ---------- dates & working days ---------- */
 function parseDate(s){
-  if (!s) return null;
-  s = s.trim();
-  if (!s) return null;
-  // try native first
-  let d = new Date(s);
-  if (!isNaN(d)) return stripTime(d);
-  // try M/D/YYYY or D/M/YYYY (assume US M/D)
-  const m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
-  if (m){
-    let [_, a, b, y] = m;
-    if (y.length === 2) y = '20' + y;
-    d = new Date(+y, +a - 1, +b);
-    if (!isNaN(d)) return stripTime(d);
+  if(!s) return null; s=String(s).trim(); if(!s) return null;
+  let d=new Date(s); if(!isNaN(d)) return stripTime(d);
+  const m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
+  if(m){ let[_,a,b,y]=m; if(y.length===2)y='20'+y; d=new Date(+y,+a-1,+b); if(!isNaN(d)) return stripTime(d); }
+  return null;
+}
+function stripTime(d){ return new Date(d.getFullYear(),d.getMonth(),d.getDate()); }
+function todayLocal(){ return stripTime(new Date()); }
+function workingDaysBetween(start,end){
+  if(!start||!end) return null;
+  let s=stripTime(start),e=stripTime(end); if(e<s) return 0;
+  let count=0; const cur=new Date(s);
+  while(cur<=e){ const dow=cur.getDay(); if(dow!==0&&dow!==6) count++; cur.setDate(cur.getDate()+1); }
+  return Math.max(0,count-1); // entry day counts as 0 elapsed working days
+}
+
+/* ---------- records ---------- */
+function getVal(row,key){ const c=MAP[key]; return c?(row[c]||'').trim():''; }
+function buildRecords(){
+  return RAW.rows.map(row=>({
+    orgId:getVal(row,'orgId'), caseNumber:getVal(row,'caseNumber'), customer:getVal(row,'customer'),
+    rep:getVal(row,'rep'), status:getVal(row,'status'), subStatus:getVal(row,'subStatus'),
+    notes:getVal(row,'notes'), statusDate:getVal(row,'statusDate'), created:getVal(row,'created'),
+    modified:getVal(row,'modified')
+  }));
+}
+
+/* ---------- snapshot tracking ---------- */
+function updateHistory(records, asOf){
+  const stamp=(asOf||todayLocal()).toISOString().slice(0,10);
+  records.forEach(r=>{
+    const id = r.caseNumber || r.orgId || (r.customer+'|'+r.status);
+    if(!id) return;
+    const key=(r.status||'')+'||'+(r.subStatus||'');
+    const prev=HIST[id];
+    if(!prev || prev.key!==key){ HIST[id]={key, firstSeen:stamp, lastSeen:stamp}; }
+    else { prev.lastSeen=stamp; }
+  });
+  save(LS.history,HIST);
+}
+function statusEnteredInfo(rec){
+  const sd=parseDate(rec.statusDate); if(sd) return {date:sd, src:'SF field'};
+  const id=rec.caseNumber || rec.orgId || (rec.customer+'|'+rec.status);
+  const h=HIST[id]; if(h&&h.firstSeen) return {date:parseDate(h.firstSeen), src:'tracked'};
+  const cd=parseDate(rec.created); if(cd) return {date:cd, src:'since opened'};
+  return {date:null, src:'n/a'};
+}
+
+/* ---------- cadence & risk ---------- */
+function norm(s){ return (s||'').toLowerCase().trim(); }
+function cadenceFor(status, subStatus, workdays){
+  if(workdays==null) return null;
+  const st=norm(status), sub=norm(subStatus);
+  for(const r of CADENCE_RULES){
+    if(r.statuses.includes(st) && r.subStatuses.includes(sub)){
+      if(workdays>=r.due) return {state:'due', label:'Outreach cadence should be completed', rule:r};
+      if(workdays>=r.pending) return {state:'pending', label:'Pending outreach cadence', rule:r};
+      return {state:'within', label:'', rule:r}; // matched a rule but below first trigger
+    }
   }
   return null;
 }
-function stripTime(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
-function todayLocal(){ return stripTime(new Date()); }
+function thresholdsFor(status){ const t=TH[status]; return { caution:(t&&t.caution!=null)?t.caution:DEF.caution, urgent:(t&&t.urgent!=null)?t.urgent:DEF.urgent }; }
+function genericRisk(workdays,status){ if(workdays==null) return 'ok'; const t=thresholdsFor(status); if(workdays>=t.urgent) return 'urgent'; if(workdays>=t.caution) return 'caution'; return 'ok'; }
 
-/* ---------- working-day count (Mon-Fri), inclusive of start day, up to 'asOf' ---------- */
-function workingDaysBetween(start, end){
-  if (!start || !end) return null;
-  let s = stripTime(start), e = stripTime(end);
-  if (e < s) return 0;
-  let count = 0;
-  const cur = new Date(s);
-  while (cur <= e){
-    const dow = cur.getDay();
-    if (dow !== 0 && dow !== 6) count++;
-    cur.setDate(cur.getDate() + 1);
-  }
-  // count is number of working days from start..end inclusive; "days in status" = that minus 1 (the entry day counts as day 0 elapsed)
-  return Math.max(0, count - 1);
-}
-
-/* ---------- snapshot diffing: track when each case entered its current status ---------- */
-function updateHistory(records, asOf){
-  const stamp = (asOf || todayLocal()).toISOString().slice(0,10);
-  records.forEach(r => {
-    const id = r.caseNumber || (r.customer + '|' + r.status);
-    if (!id) return;
-    const key = (r.status || '') + '||' + (r.subStatus || '');
-    const prev = HIST[id];
-    if (!prev || prev.key !== key){
-      HIST[id] = { key, firstSeen: stamp, lastSeen: stamp };
-    } else {
-      prev.lastSeen = stamp;
-    }
-  });
-  save(LS.history, HIST);
-}
-
-/* ---------- build record objects from raw rows using MAP ---------- */
-function getVal(row, key){ const col = MAP[key]; return col ? (row[col] || '').trim() : ''; }
-
-function buildRecords(){
-  return RAW.rows.map(row => {
-    return {
-      caseNumber: getVal(row,'caseNumber'),
-      customer: getVal(row,'customer'),
-      rep: getVal(row,'rep'),
-      status: getVal(row,'status'),
-      subStatus: getVal(row,'subStatus'),
-      notes: getVal(row,'notes'),
-      statusDate: getVal(row,'statusDate'),
-      created: getVal(row,'created'),
-      modified: getVal(row,'modified'),
-      _row: row
-    };
-  });
-}
-
-/* ---------- determine status-entered date and its source ---------- */
-function statusEnteredInfo(rec, asOf){
-  // 1. explicit status-change column
-  const sd = parseDate(rec.statusDate);
-  if (sd) return { date: sd, src: 'SF field' };
-  // 2. snapshot history
-  const id = rec.caseNumber || (rec.customer + '|' + rec.status);
-  const h = HIST[id];
-  if (h && h.firstSeen){
-    return { date: parseDate(h.firstSeen), src: 'tracked' };
-  }
-  // 3. created date proxy
-  const cd = parseDate(rec.created);
-  if (cd) return { date: cd, src: 'since opened' };
-  return { date: null, src: 'n/a' };
-}
-
-/* ---------- thresholds for a status ---------- */
-function thresholdsFor(status){
-  const t = TH[status];
-  return {
-    caution: (t && t.caution != null) ? t.caution : DEF.caution,
-    urgent:  (t && t.urgent  != null) ? t.urgent  : DEF.urgent
-  };
-}
-function riskLevel(workdays, status){
-  if (workdays == null) return 'ok';
-  const t = thresholdsFor(status);
-  if (workdays >= t.urgent) return 'urgent';
-  if (workdays >= t.caution) return 'caution';
-  return 'ok';
-}
-
-/* ---------- 1-sentence summary from notes ---------- */
+/* ---------- summary ---------- */
 function summarize(notes){
-  if (!notes) return '<span style="color:var(--muted)">No notes</span>';
-  let n = notes.replace(/\s+/g,' ').trim();
-  // take last sentence containing forward-looking cues, else first sentence
-  const sentences = n.split(/(?<=[.!?])\s+/).filter(Boolean);
-  let pick = '';
-  const cues = /(next|follow up|follow-up|waiting|need|pending|todo|to-do|will|schedule|awaiting|blocked|reach out|send|call back)/i;
-  for (let k = sentences.length - 1; k >= 0; k--){ if (cues.test(sentences[k])){ pick = sentences[k]; break; } }
-  if (!pick) pick = sentences[0] || n;
-  if (pick.length > 160) pick = pick.slice(0,157) + '…';
+  if(!notes) return '<span style="color:var(--muted)">No notes</span>';
+  let n=notes.replace(/\s+/g,' ').trim();
+  const sentences=n.split(/(?<=[.!?])\s+/).filter(Boolean);
+  let pick='';
+  const cues=/(next|follow up|follow-up|waiting|need|pending|todo|to-do|will|schedule|awaiting|blocked|reach out|reschedul|sent|call back|submit|resend|gl|go live)/i;
+  for(let k=sentences.length-1;k>=0;k--){ if(cues.test(sentences[k])){ pick=sentences[k]; break; } }
+  if(!pick) pick=sentences[0]||n;
+  if(pick.length>170) pick=pick.slice(0,167)+'…';
   return escapeHtml(pick);
 }
-function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-/* ============================================================
-   RENDER
-   ============================================================ */
+/* ============================================================ RENDER ============================================================ */
 const TABLE_COLS = [
-  { key:'caseNumber', label:'Case #' },
-  { key:'customer', label:'Customer' },
-  { key:'rep', label:'Rep' },
-  { key:'status', label:'Status' },
-  { key:'subStatus', label:'Sub-Status' },
-  { key:'workdays', label:'Work days in status' },
-  { key:'risk', label:'Risk' },
-  { key:'summary', label:'Where it stands / next' }
+  {key:'orgId',label:'Org ID'},{key:'caseNumber',label:'Case #'},{key:'customer',label:'Customer'},
+  {key:'rep',label:'Rep'},{key:'status',label:'Status'},{key:'subStatus',label:'Sub-Status'},
+  {key:'workdays',label:'Work days in status'},{key:'risk',label:'Risk / Cadence'},{key:'summary',label:'Where it stands / next'}
 ];
+const SEV_ORDER = { 'due':5, 'urgent':4, 'pending':3, 'caution':2, 'ok':1 };
 
 function computeView(){
   const asOf = parseDate(document.getElementById('asOf').value) || todayLocal();
   const recs = buildRecords();
-  recs.forEach(r => {
-    const info = statusEnteredInfo(r, asOf);
-    r._enteredDate = info.date;
-    r._enteredSrc = info.src;
+  recs.forEach(r=>{
+    const info=statusEnteredInfo(r);
+    r._enteredSrc=info.src;
     r._workdays = info.date ? workingDaysBetween(info.date, asOf) : null;
-    r._risk = riskLevel(r._workdays, r.status);
+    r._cad = cadenceFor(r.status, r.subStatus, r._workdays);
+    r._gen = genericRisk(r._workdays, r.status);
+    // severity = max of cadence + generic
+    if(r._cad && r._cad.state==='due') r._sev='due';
+    else if(r._gen==='urgent') r._sev='urgent';
+    else if(r._cad && r._cad.state==='pending') r._sev='pending';
+    else if(r._gen==='caution') r._sev='caution';
+    else r._sev='ok';
   });
   return recs;
 }
-
 function applyFilters(recs){
-  const risk = document.getElementById('riskFilter').value;
-  const status = document.getElementById('statusFilter').value;
-  const q = document.getElementById('search').value.toLowerCase().trim();
-  return recs.filter(r => {
-    if (SEL_REPS && !SEL_REPS.includes(r.rep)) return false;
-    if (status !== 'all' && r.status !== status) return false;
-    if (risk === 'urgent' && r._risk !== 'urgent') return false;
-    if (risk === 'caution' && r._risk === 'ok') return false;
-    if (q){
-      const hay = (r.caseNumber+' '+r.customer+' '+r.rep+' '+r.status+' '+r.subStatus+' '+r.notes).toLowerCase();
-      if (!hay.includes(q)) return false;
-    }
+  const risk=document.getElementById('riskFilter').value;
+  const status=document.getElementById('statusFilter').value;
+  const sub=document.getElementById('subFilter').value;
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  return recs.filter(r=>{
+    if(SEL_REPS && !SEL_REPS.includes(r.rep)) return false;
+    if(status!=='all' && r.status!==status) return false;
+    if(sub!=='all' && r.subStatus!==sub) return false;
+    if(risk==='cadence' && !(r._cad && (r._cad.state==='pending'||r._cad.state==='due'))) return false;
+    if(risk==='urgent' && r._sev!=='due' && r._sev!=='urgent') return false;
+    if(risk==='caution' && (r._sev==='ok')) return false;
+    if(q){ const hay=(r.orgId+' '+r.caseNumber+' '+r.customer+' '+r.rep+' '+r.status+' '+r.subStatus+' '+r.notes).toLowerCase(); if(!hay.includes(q)) return false; }
     return true;
   });
 }
-
 function sortRecs(recs){
-  const dir = sortDir === 'asc' ? 1 : -1;
-  return recs.slice().sort((a,b) => {
-    let av, bv;
-    if (sortKey === 'workdays'){ av = a._workdays==null?-1:a._workdays; bv = b._workdays==null?-1:b._workdays; }
-    else if (sortKey === 'risk'){ const order={urgent:2,caution:1,ok:0}; av=order[a._risk]; bv=order[b._risk]; }
-    else { av = (a[sortKey]||'').toLowerCase(); bv = (b[sortKey]||'').toLowerCase(); }
-    if (av < bv) return -1*dir; if (av > bv) return 1*dir; return 0;
+  const dir=sortDir==='asc'?1:-1;
+  return recs.slice().sort((a,b)=>{
+    let av,bv;
+    if(sortKey==='workdays'){ av=a._workdays==null?-1:a._workdays; bv=b._workdays==null?-1:b._workdays; }
+    else if(sortKey==='risk'){ av=SEV_ORDER[a._sev]; bv=SEV_ORDER[b._sev]; }
+    else { av=(a[sortKey]||'').toLowerCase(); bv=(b[sortKey]||'').toLowerCase(); }
+    if(av<bv) return -1*dir; if(av>bv) return 1*dir; return 0;
   });
 }
-
 function render(){
-  const hasData = RAW.rows.length > 0;
-  document.getElementById('emptyState').classList.toggle('hidden', hasData);
-  document.getElementById('caseTable').classList.toggle('hidden', !hasData);
-  if (!hasData){ document.getElementById('cards').innerHTML=''; return; }
+  const hasData=RAW.rows.length>0;
+  document.getElementById('emptyState').classList.toggle('hidden',hasData);
+  document.getElementById('caseTable').classList.toggle('hidden',!hasData);
+  if(!hasData){ document.getElementById('cards').innerHTML=''; return; }
 
-  const all = computeView();
-  const filtered = sortRecs(applyFilters(all));
+  const all=computeView();
+  const filtered=sortRecs(applyFilters(all));
+  const scoped=all.filter(r=>!SEL_REPS||SEL_REPS.includes(r.rep));
 
-  // cards (based on current rep filter, ignoring risk/status/search so totals are meaningful)
-  const repScoped = all.filter(r => !SEL_REPS || SEL_REPS.includes(r.rep));
-  const total = repScoped.length;
-  const urgent = repScoped.filter(r => r._risk==='urgent').length;
-  const caution = repScoped.filter(r => r._risk==='caution').length;
-  const valid = repScoped.filter(r => r._workdays!=null);
-  const avg = valid.length ? Math.round(valid.reduce((s,r)=>s+r._workdays,0)/valid.length) : '—';
-  const oldest = valid.length ? Math.max(...valid.map(r=>r._workdays)) : '—';
-  document.getElementById('cards').innerHTML = `
-    <div class="card"><div class="v">${total}</div><div class="l">Open cases</div></div>
-    <div class="card urgent"><div class="v">${urgent}</div><div class="l">Urgent &mdash; act now</div></div>
-    <div class="card caution"><div class="v">${caution}</div><div class="l">Caution</div></div>
-    <div class="card"><div class="v">${avg}</div><div class="l">Avg work days in status</div></div>
-    <div class="card"><div class="v">${oldest}</div><div class="l">Longest in status</div></div>`;
+  const due=scoped.filter(r=>r._cad&&r._cad.state==='due').length;
+  const pending=scoped.filter(r=>r._cad&&r._cad.state==='pending').length;
+  const atRisk=scoped.filter(r=>r._sev==='urgent').length;
+  const valid=scoped.filter(r=>r._workdays!=null);
+  const longest=valid.length?Math.max(...valid.map(r=>r._workdays)):'—';
+  document.getElementById('cards').innerHTML=`
+    <div class="card"><div class="v">${scoped.length}</div><div class="l">Open cases</div></div>
+    <div class="card urgent"><div class="v">${due}</div><div class="l">Cadence due now</div></div>
+    <div class="card caution"><div class="v">${pending}</div><div class="l">Pending cadence</div></div>
+    <div class="card urgent"><div class="v">${atRisk}</div><div class="l">At risk (long in status)</div></div>
+    <div class="card"><div class="v">${longest}</div><div class="l">Longest in status (wd)</div></div>`;
 
-  // header
-  const thead = document.getElementById('theadRow');
-  thead.innerHTML = TABLE_COLS.map(c => {
-    const arrow = sortKey===c.key ? `<span class="arrow">${sortDir==='asc'?'▲':'▼'}</span>` : '';
-    return `<th data-sort="${c.key}">${c.label} ${arrow}</th>`;
-  }).join('');
-  thead.querySelectorAll('th').forEach(th => th.onclick = () => {
-    const k = th.dataset.sort;
-    if (sortKey === k) sortDir = sortDir==='asc'?'desc':'asc'; else { sortKey = k; sortDir = (k==='workdays'||k==='risk')?'desc':'asc'; }
-    render();
-  });
+  const thead=document.getElementById('theadRow');
+  thead.innerHTML=TABLE_COLS.map(c=>{ const a=sortKey===c.key?`<span class="arrow">${sortDir==='asc'?'▲':'▼'}</span>`:''; return `<th data-sort="${c.key}">${c.label} ${a}</th>`; }).join('');
+  thead.querySelectorAll('th').forEach(th=>th.onclick=()=>{ const k=th.dataset.sort; if(sortKey===k) sortDir=sortDir==='asc'?'desc':'asc'; else{ sortKey=k; sortDir=(k==='workdays'||k==='risk')?'desc':'asc'; } render(); });
 
-  // body
-  const tbody = document.getElementById('tbody');
-  if (!filtered.length){
-    tbody.innerHTML = `<tr><td colspan="${TABLE_COLS.length}" style="padding:30px;text-align:center;color:var(--muted)">No cases match the current filters.</td></tr>`;
-    return;
-  }
-  tbody.innerHTML = filtered.map((r,i) => {
-    const wd = r._workdays==null ? '<span style="color:var(--muted)">—</span>' : r._workdays;
-    const badge = r._risk==='urgent' ? '<span class="badge urgent">Urgent</span>'
-                : r._risk==='caution' ? '<span class="badge caution">Caution</span>'
-                : '<span class="badge ok">On track</span>';
-    const summ = summarize(r.notes);
-    const full = r.notes ? escapeHtml(r.notes) : '';
-    const moreBtn = r.notes && r.notes.length > 0 ? `<span class="more" data-i="${i}">notes</span>` : '';
-    return `<tr class="risk-${r._risk}">
-      <td>${escapeHtml(r.caseNumber)||'&mdash;'}</td>
+  const tbody=document.getElementById('tbody');
+  if(!filtered.length){ tbody.innerHTML=`<tr><td colspan="${TABLE_COLS.length}" style="padding:30px;text-align:center;color:var(--muted)">No cases match the current filters.</td></tr>`; return; }
+  tbody.innerHTML=filtered.map((r,i)=>{
+    const wd=r._workdays==null?'<span style="color:var(--muted)">—</span>':r._workdays;
+    let riskCell;
+    if(r._cad && r._cad.state==='due') riskCell=`<span class="badge urgent">Outreach cadence should be completed</span>`;
+    else if(r._cad && r._cad.state==='pending') riskCell=`<span class="badge caution">Pending outreach cadence</span>`;
+    else if(r._sev==='urgent') riskCell=`<span class="badge urgent">Urgent &middot; long in status</span>`;
+    else if(r._sev==='caution') riskCell=`<span class="badge caution">Caution &middot; long in status</span>`;
+    else riskCell=`<span class="badge ok">On track</span>`;
+    const summ=summarize(r.notes);
+    const moreBtn=r.notes?`<span class="more" data-i="${i}">notes</span>`:'';
+    return `<tr class="sev-${r._sev}">
+      <td class="mono">${escapeHtml(r.orgId)||'&mdash;'}</td>
+      <td class="mono">${escapeHtml(r.caseNumber)||'&mdash;'}</td>
       <td>${escapeHtml(r.customer)||'&mdash;'}</td>
       <td>${escapeHtml(r.rep)||'&mdash;'}</td>
       <td><span class="chip">${escapeHtml(r.status)||'&mdash;'}</span></td>
       <td>${escapeHtml(r.subStatus)||'&mdash;'}</td>
       <td><span class="daycell">${wd}</span><span class="src-tag">${r._enteredSrc}</span></td>
-      <td>${badge}</td>
-      <td><div class="summary">${summ} ${moreBtn}</div><div class="notesfull" id="nf-${i}">${full}</div></td>
+      <td>${riskCell}</td>
+      <td><div class="summary">${summ} ${moreBtn}</div><div class="notesfull" id="nf-${i}">${escapeHtml(r.notes||'')}</div></td>
     </tr>`;
   }).join('');
-  tbody.querySelectorAll('.more').forEach(el => el.onclick = () => {
-    document.getElementById('nf-'+el.dataset.i).classList.toggle('show');
-  });
+  tbody.querySelectorAll('.more').forEach(el=>el.onclick=()=>document.getElementById('nf-'+el.dataset.i).classList.toggle('show'));
 }
 
-/* ============================================================
-   UI: rep multiselect, config, mapping
-   ============================================================ */
-function uniqueReps(){
-  const s = new Set();
-  buildRecords().forEach(r => { if (r.rep) s.add(r.rep); });
-  return [...s].sort();
-}
+/* ============================================================ UI ============================================================ */
+function uniqueVals(key){ const s=new Set(); buildRecords().forEach(r=>{ if(r[key]) s.add(r[key]); }); return [...s].sort(); }
 function renderRepMenu(){
-  const reps = uniqueReps();
-  const list = document.getElementById('repList');
-  if (SEL_REPS) SEL_REPS = SEL_REPS.filter(r => reps.includes(r));
-  list.innerHTML = reps.map(r => {
-    const checked = (!SEL_REPS || SEL_REPS.includes(r)) ? 'checked' : '';
-    return `<label class="row"><input type="checkbox" value="${escapeHtml(r)}" ${checked}/> ${escapeHtml(r)}</label>`;
-  }).join('') || '<div style="padding:8px;color:var(--muted)">No reps found</div>';
-  list.querySelectorAll('input').forEach(cb => cb.onchange = () => {
-    const checks = [...list.querySelectorAll('input')];
-    const selected = checks.filter(c=>c.checked).map(c=>c.value);
-    SEL_REPS = (selected.length === checks.length) ? null : selected;
-    save(LS.reps, SEL_REPS); updateRepLabel(reps); render();
-  });
+  const reps=uniqueVals('rep'); const list=document.getElementById('repList');
+  if(SEL_REPS) SEL_REPS=SEL_REPS.filter(r=>reps.includes(r));
+  list.innerHTML=reps.map(r=>`<label class="row"><input type="checkbox" value="${escapeHtml(r)}" ${(!SEL_REPS||SEL_REPS.includes(r))?'checked':''}/> ${escapeHtml(r)}</label>`).join('')||'<div style="padding:8px;color:var(--muted)">No rep/owner column in the sheet yet</div>';
+  list.querySelectorAll('input').forEach(cb=>cb.onchange=()=>{ const checks=[...list.querySelectorAll('input')]; const sel=checks.filter(c=>c.checked).map(c=>c.value); SEL_REPS=(sel.length===checks.length)?null:sel; save(LS.reps,SEL_REPS); updateRepLabel(reps); render(); });
   updateRepLabel(reps);
 }
-function updateRepLabel(reps){
-  const lbl = document.getElementById('repLabel');
-  if (!SEL_REPS || SEL_REPS.length === reps.length) lbl.textContent = 'All reps';
-  else if (SEL_REPS.length === 0) lbl.textContent = 'None selected';
-  else if (SEL_REPS.length === 1) lbl.textContent = SEL_REPS[0];
-  else lbl.textContent = SEL_REPS.length + ' reps selected';
-}
-
-function renderStatusFilter(){
-  const s = new Set(); buildRecords().forEach(r => { if (r.status) s.add(r.status); });
-  const sel = document.getElementById('statusFilter');
-  const cur = sel.value;
-  sel.innerHTML = '<option value="all">All statuses</option>' + [...s].sort().map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join('');
-  if ([...sel.options].some(o=>o.value===cur)) sel.value = cur;
-}
-
+function updateRepLabel(reps){ const l=document.getElementById('repLabel'); if(!SEL_REPS||SEL_REPS.length===reps.length) l.textContent='All reps'; else if(!SEL_REPS.length) l.textContent='None selected'; else if(SEL_REPS.length===1) l.textContent=SEL_REPS[0]; else l.textContent=SEL_REPS.length+' reps selected'; }
+function fillSelect(id,key,allLabel){ const sel=document.getElementById(id); const cur=sel.value; sel.innerHTML=`<option value="all">${allLabel}</option>`+uniqueVals(key).map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join(''); if([...sel.options].some(o=>o.value===cur)) sel.value=cur; }
 function renderMapping(){
-  const grid = document.getElementById('mapGrid');
-  grid.innerHTML = FIELDS.map(f => {
-    const opts = ['<option value="">— not in export —</option>']
-      .concat(RAW.headers.map(h => `<option value="${escapeHtml(h)}" ${MAP[f.key]===h?'selected':''}>${escapeHtml(h)}</option>`)).join('');
-    return `<div class="mapfield"><label>${f.label}</label><select data-field="${f.key}">${opts}</select></div>`;
-  }).join('');
-  grid.querySelectorAll('select').forEach(sel => sel.onchange = () => {
-    MAP[sel.dataset.field] = sel.value; save(LS.map, MAP); refreshAll();
-  });
+  const grid=document.getElementById('mapGrid');
+  grid.innerHTML=FIELDS.map(f=>{ const opts=['<option value="">— not in export —</option>'].concat(RAW.headers.map(h=>`<option value="${escapeHtml(h)}" ${MAP[f.key]===h?'selected':''}>${escapeHtml(h)}</option>`)).join(''); return `<div class="mapfield"><label>${f.label}</label><select data-field="${f.key}">${opts}</select></div>`; }).join('');
+  grid.querySelectorAll('select').forEach(sel=>sel.onchange=()=>{ MAP[sel.dataset.field]=sel.value; save(LS.map,MAP); refreshAll(); });
 }
-
+function renderCadenceTable(){
+  const tb=document.querySelector('#cadTable tbody');
+  tb.innerHTML=CADENCE_RULES.map(r=>`<tr><td>${r.statuses.join(' / ')}</td><td>${r.subStatuses.join(' / ')}</td><td>${r.pending} working day${r.pending>1?'s':''}</td><td>${r.due} working days</td></tr>`).join('');
+}
 function renderThresholds(){
-  document.getElementById('defCaution').value = DEF.caution;
-  document.getElementById('defUrgent').value = DEF.urgent;
-  const statuses = new Set(); buildRecords().forEach(r => { if (r.status) statuses.add(r.status); });
-  const tb = document.querySelector('#cfgTable tbody');
-  tb.innerHTML = [...statuses].sort().map(st => {
-    const t = TH[st] || {};
-    return `<tr><td>${escapeHtml(st)}</td>
-      <td><input type="number" min="1" data-st="${escapeHtml(st)}" data-k="caution" value="${t.caution!=null?t.caution:''}" placeholder="${DEF.caution}"/></td>
-      <td><input type="number" min="1" data-st="${escapeHtml(st)}" data-k="urgent" value="${t.urgent!=null?t.urgent:''}" placeholder="${DEF.urgent}"/></td></tr>`;
-  }).join('') || '<tr><td colspan="3" style="color:var(--muted)">Load data to configure per-status thresholds.</td></tr>';
-  tb.querySelectorAll('input').forEach(inp => inp.onchange = () => {
-    const st = inp.dataset.st, k = inp.dataset.k;
-    TH[st] = TH[st] || {};
-    const v = inp.value.trim();
-    if (v === '') delete TH[st][k]; else TH[st][k] = +v;
-    if (!Object.keys(TH[st]).length) delete TH[st];
-    save(LS.thresholds, TH); render();
-  });
+  document.getElementById('defCaution').value=DEF.caution; document.getElementById('defUrgent').value=DEF.urgent;
+  const tb=document.querySelector('#cfgTable tbody');
+  const statuses=uniqueVals('status');
+  tb.innerHTML=statuses.map(st=>{ const t=TH[st]||{}; return `<tr><td>${escapeHtml(st)}</td><td><input type="number" min="1" data-st="${escapeHtml(st)}" data-k="caution" value="${t.caution!=null?t.caution:''}" placeholder="${DEF.caution}"/></td><td><input type="number" min="1" data-st="${escapeHtml(st)}" data-k="urgent" value="${t.urgent!=null?t.urgent:''}" placeholder="${DEF.urgent}"/></td></tr>`; }).join('')||'<tr><td colspan="3" style="color:var(--muted)">No Status column in the sheet yet.</td></tr>';
+  tb.querySelectorAll('input').forEach(inp=>inp.onchange=()=>{ const st=inp.dataset.st,k=inp.dataset.k; TH[st]=TH[st]||{}; const v=inp.value.trim(); if(v==='') delete TH[st][k]; else TH[st][k]=+v; if(!Object.keys(TH[st]).length) delete TH[st]; save(LS.thresholds,TH); render(); });
 }
-
-function refreshAll(){
-  renderRepMenu(); renderStatusFilter(); renderMapping(); renderThresholds(); render();
-  updateTrackNote();
+function checkSchema(){
+  const banner=document.getElementById('banner');
+  const missing=[];
+  if(!MAP.status) missing.push('Status');
+  if(!MAP.rep) missing.push('Case Owner');
+  if(missing.length){
+    banner.classList.add('show');
+    banner.innerHTML=`<b>Heads up:</b> the connected sheet doesn't have a ${missing.join(' or ')} column yet, so ${missing.includes('Status')?'cadence flags':''}${missing.length===2?' and ':''}${missing.includes('Case Owner')?'the rep filter':''} can't fully work. They'll activate automatically once your updated Salesforce export includes ${missing.join(' & ')}. Hit <b>Refresh from Sheet</b> after it syncs.`;
+  } else { banner.classList.remove('show'); }
 }
-function updateTrackNote(){
-  const n = Object.keys(HIST).length;
-  document.getElementById('trackNote').innerHTML =
-    `Status-change tracking: <b>${n}</b> case(s) being timed via snapshot history. ` +
-    `When you map a real "Status changed date" column it takes priority for exact counts.`;
-}
+function refreshAll(){ renderRepMenu(); fillSelect('statusFilter','status','All statuses'); fillSelect('subFilter','subStatus','All sub-statuses'); renderMapping(); renderCadenceTable(); renderThresholds(); checkSchema(); render(); updateTrackNote(); }
+function updateTrackNote(){ const n=Object.keys(HIST).length; document.getElementById('trackNote').innerHTML=`Status-change tracking: <b>${n}</b> case(s) timed via snapshot history. For exact, shared counts, add a "Status changed date" column to the export and map it in Configuration.`; }
 
-/* ---------- load data flow ---------- */
-function ingest(text, srcLabel){
-  RAW = parseCSV(text);
-  if (!RAW.headers.length){ alert('Could not read any columns from that file.'); return; }
-  // auto-map if mapping empty or columns changed
-  const haveAll = Object.keys(MAP).length && Object.values(MAP).every(v => !v || RAW.headers.includes(v));
-  if (!haveAll || !MAP.status){
-    MAP = autoMap(RAW.headers); save(LS.map, MAP);
-  }
-  const asOf = parseDate(document.getElementById('asOf').value) || todayLocal();
-  const recs = buildRecords();
-  updateHistory(recs, asOf);
-  document.getElementById('loadedInfo').textContent =
-    `${RAW.rows.length} cases loaded from ${srcLabel} · ${new Date().toLocaleString()}`;
-  refreshAll();
-}
-
-/* ============================================================
-   EVENTS
-   ============================================================ */
-document.getElementById('fileInput').addEventListener('change', e => {
-  const f = e.target.files[0]; if (!f) return;
-  const reader = new FileReader();
-  reader.onload = ev => ingest(ev.target.result, f.name);
-  reader.readAsText(f);
-});
-document.getElementById('sampleBtn').onclick = () => ingest(SAMPLE_CSV, 'sample data');
-
-/* ---------- Google Sheet auto-pull ---------- */
-const sheetUrlEl = document.getElementById('sheetUrl');
-const sheetAutoEl = document.getElementById('sheetAuto');
-sheetUrlEl.value = load(LS.sheetUrl, '') || '';
-sheetAutoEl.checked = load(LS.sheetAuto, false);
-sheetUrlEl.addEventListener('change', () => save(LS.sheetUrl, sheetUrlEl.value.trim()));
-sheetAutoEl.addEventListener('change', () => save(LS.sheetAuto, sheetAutoEl.checked));
-document.getElementById('sheetRefresh').onclick = () => fetchFromSheet(true);
-
-function normalizeSheetUrl(u){
-  u = u.trim(); if (!u) return '';
-  // /d/e/.../pub?output=csv (published-to-web) is BLOCKED by CORS for script reads.
-  // Prefer the gviz CSV export, which sends CORS headers, whenever we can find a spreadsheet id.
-  const idm = u.match(/\/spreadsheets\/d\/(?!e\/)([a-zA-Z0-9-_]+)/);
-  if (idm){
-    const id = idm[1];
-    const gm = u.match(/[#&?]gid=(\d+)/);
-    const gid = gm ? gm[1] : '0';
-    return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&gid=${gid}`;
-  }
-  // already a gviz or pub csv endpoint, or a /d/e/ published link — use as-is
-  return u;
-}
-
+/* ---------- fetch ---------- */
 async function fetchFromSheet(manual){
-  const raw = sheetUrlEl.value.trim();
-  const st = document.getElementById('sheetStatus');
-  if (!raw){ if (manual) alert('Paste your Google Sheet URL first.'); return; }
-  save(LS.sheetUrl, raw);
-  const url = normalizeSheetUrl(raw);
-  const isPub = /\/d\/e\//.test(raw) || /\/pub\b/.test(raw);
-  st.textContent = 'Fetching…';
-  try {
-    const res = await fetch(url, { redirect: 'follow', cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
-    if (/^\s*<(!doctype|html)/i.test(text)) throw new Error('private-page');
-    ingest(text, 'Google Sheet');
-    st.textContent = 'Updated ' + new Date().toLocaleTimeString();
-  } catch(e){
-    st.innerHTML = 'Could not fetch — <a href="' + url.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener">test the data link &#8599;</a>';
-    let msg;
-    if (e.message === 'private-page'){
-      msg = 'Got a sign-in / HTML page instead of data.\n\nThe sheet is not readable by link. Fix it in the Sheet:\nShare → General access → "Anyone with the link" → Viewer.';
-    } else if (isPub){
-      msg = 'The "Publish to web" CSV link is blocked by the browser (CORS).\n\nUse the NORMAL sheet URL instead — the one ending in /edit#gid=... — and set Share → "Anyone with the link" → Viewer. This dashboard auto-converts it to a link the browser is allowed to read.';
-    } else {
-      msg = 'Could not reach the Sheet (' + (e.message || 'network/CORS error') + ').\n\nChecklist:\n1. Share → "Anyone with the link" → Viewer.\n2. Paste the normal /edit URL (not the published-CSV link).\n3. If you opened this dashboard by double-clicking the file, some browsers restrict local files — try Chrome, or use the manual "Load export (CSV)" button as a fallback.';
-    }
-    if (manual) alert('Could not pull from the Sheet.\n\n' + msg);
+  const st=document.getElementById('sheetStatus');
+  st.textContent='Fetching…';
+  try{
+    const res=await fetch(EMBEDDED_SHEET_URL,{redirect:'follow',cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const text=await res.text();
+    if(/^\s*<(!doctype|html)/i.test(text)) throw new Error('private-page');
+    RAW=parseCSV(text);
+    if(!RAW.headers.length) throw new Error('no columns');
+    const haveValid=MAP.status||MAP.subStatus; const colsOk=Object.values(MAP).every(v=>!v||RAW.headers.includes(v));
+    if(!haveValid || !colsOk){ MAP=autoMap(RAW.headers); save(LS.map,MAP); }
+    const asOf=parseDate(document.getElementById('asOf').value)||todayLocal();
+    updateHistory(buildRecords(),asOf);
+    document.getElementById('loadedInfo').textContent=`${RAW.rows.length} open cases · live from Salesforce sheet`;
+    st.textContent='Updated '+new Date().toLocaleTimeString();
+    refreshAll();
+  }catch(e){
+    let msg = e.message==='private-page' ? 'the sheet is not readable by link (Share → Anyone with the link → Viewer)'
+            : (e.message||'network/CORS error');
+    st.innerHTML='Refresh failed';
+    document.getElementById('emptyState').innerHTML='Could not reach the live sheet ('+escapeHtml(msg)+'). If you opened this as a local file, host it (GitHub Pages) so it can fetch. <a href="'+EMBEDDED_SHEET_URL.replace(/"/g,'&quot;')+'" target="_blank" rel="noopener">Test the data link &#8599;</a>';
+    if(manual) alert('Could not pull from the Sheet.\n\n'+msg);
   }
 }
-document.getElementById('resetHistBtn').onclick = () => {
-  if (confirm('Clear stored status-change tracking history? Day counts based on snapshots will restart from the next load.')){
-    HIST = {}; save(LS.history, HIST); refreshAll();
-  }
-};
-['riskFilter','statusFilter','search','asOf'].forEach(id => {
-  document.getElementById(id).addEventListener('input', render);
-});
-document.getElementById('defCaution').addEventListener('change', e => { DEF.caution = +e.target.value||5; save(LS.defaults,DEF); render(); });
-document.getElementById('defUrgent').addEventListener('change', e => { DEF.urgent = +e.target.value||10; save(LS.defaults,DEF); render(); });
 
-// rep multiselect open/close
-const repMulti = document.getElementById('repMulti');
-document.getElementById('repToggle').onclick = (e) => { e.stopPropagation(); repMulti.classList.toggle('open'); };
-document.addEventListener('click', (e) => { if (!repMulti.contains(e.target)) repMulti.classList.remove('open'); });
-document.getElementById('repAll').onclick = () => { SEL_REPS = null; save(LS.reps,null); renderRepMenu(); render(); };
-document.getElementById('repNone').onclick = () => { SEL_REPS = []; save(LS.reps,[]); renderRepMenu(); render(); };
+/* ---------- events ---------- */
+document.getElementById('sheetRefresh').onclick=()=>fetchFromSheet(true);
+['riskFilter','statusFilter','subFilter','search','asOf'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+document.getElementById('defCaution').addEventListener('change',e=>{ DEF.caution=+e.target.value||5; save(LS.defaults,DEF); render(); });
+document.getElementById('defUrgent').addEventListener('change',e=>{ DEF.urgent=+e.target.value||10; save(LS.defaults,DEF); render(); });
+document.getElementById('resetHist').onclick=()=>{ if(confirm('Clear stored status-change tracking history?')){ HIST={}; save(LS.history,HIST); refreshAll(); } };
+const repMulti=document.getElementById('repMulti');
+document.getElementById('repToggle').onclick=e=>{ e.stopPropagation(); repMulti.classList.toggle('open'); };
+document.addEventListener('click',e=>{ if(!repMulti.contains(e.target)) repMulti.classList.remove('open'); });
+document.getElementById('repAll').onclick=()=>{ SEL_REPS=null; save(LS.reps,null); renderRepMenu(); render(); };
+document.getElementById('repNone').onclick=()=>{ SEL_REPS=[]; save(LS.reps,[]); renderRepMenu(); render(); };
+document.querySelectorAll('[data-toggle]').forEach(h=>h.onclick=()=>document.getElementById(h.dataset.toggle).classList.toggle('collapsed'));
+document.getElementById('asOf').value=todayLocal().toISOString().slice(0,10);
 
-// collapsible panels
-document.querySelectorAll('[data-toggle]').forEach(h => h.onclick = () => {
-  document.getElementById(h.dataset.toggle).classList.toggle('collapsed');
-});
-
-// init as-of date
-document.getElementById('asOf').value = todayLocal().toISOString().slice(0,10);
-
-/* ============================================================
-   SAMPLE DATA (mimics a Salesforce case export)
-   ============================================================ */
-const SAMPLE_CSV = `Case Number,Account Name,Case Owner,Status,Sub-Status,Sub-Status Notes,Date/Time Opened
-00012841,Riverbend Plumbing,Alex Rivera,In Progress,Awaiting Customer Docs,"Sent W-9 and direct deposit forms 5/28. Customer confirmed receipt. Next: follow up if not returned by EOW.",2026-05-26
-00012902,Summit HVAC,Alex Rivera,Blocked,Waiting on Prior Provider,"Requested final pay history from ADP on 6/2. No response yet. Next: escalate to ADP rep / loop in customer.",2026-06-02
-00012933,Coastal Electric,Alex Rivera,In Progress,Build In Progress,"Earnings codes mapped. Need to confirm overtime rules for 3 techs before first run.",2026-06-08
-00012855,Green Valley Landscaping,Jordan Kim,Blocked,Missing Tax IDs,"State withholding ID still missing for CA and AZ. Customer applying. Next: check status weekly.",2026-05-20
-00012977,Apex Roofing,Jordan Kim,In Progress,Awaiting Customer Docs,"Voided check received. Waiting on signed authorization form.",2026-06-09
-00012811,Lone Star Pest Control,Jordan Kim,New,Not Started,"Welcome call scheduled 6/15. No docs requested yet.",2026-06-10
-00012744,Bright Home Services,Sam Patel,In Review,Final QA,"All employees loaded. Running parallel test against last 2 cycles. Next: send sign-off doc to customer.",2026-06-04
-00012699,Metro Garage Doors,Sam Patel,Blocked,Waiting on Customer Approval,"Sent first-run preview 5/22. Awaiting approval to go live. Several reminders sent.",2026-05-22
-00013001,Evergreen Cleaning,Sam Patel,In Progress,Build In Progress,"Kickoff done 6/11. Gathering employee roster.",2026-06-11
-00012880,Pioneer Garage,Taylor Brooks,In Progress,Awaiting Customer Docs,"Customer slow to return I-9s. Reached out 3x. Next: offer a screenshare to complete together.",2026-05-23
-00012945,Sunrise Solar,Taylor Brooks,In Review,Final QA,"Parallel passed. Minor variance on PTO accrual being confirmed with customer.",2026-06-07
-00012990,Hometown Heating,Taylor Brooks,New,Not Started,"Assigned today. Intro email queued.",2026-06-12`;
-
-// boot
-refreshAll();
-if (sheetAutoEl.checked && sheetUrlEl.value.trim()) fetchFromSheet(false);
+// boot: auto-pull immediately
+fetchFromSheet(false);
 </script>
 </body>
 </html>
