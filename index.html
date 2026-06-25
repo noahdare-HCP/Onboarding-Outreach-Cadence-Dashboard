@@ -213,7 +213,8 @@ const CADENCE_RULES = [
   { statuses:['onboarding'],         subStatuses:['waiting for pro'],                                       outreachDays:[2,4,6] },
   { statuses:['onboarding'],         subStatuses:['process build in progress'],                             outreachDays:[2,4] },
   { statuses:['data confirmation'],  subStatuses:['process build in progress'],                             outreachDays:[3] },
-  { statuses:['coaching'],           subStatuses:['waiting for pro','rescheduled','additional call required'], outreachDays:[1,3,4] }
+  { statuses:['coaching'],           subStatuses:['waiting for pro','rescheduled','additional call required'], outreachDays:[1,3,4] },
+  { statuses:['coaching'],           subStatuses:['call booked'],                                           outreachDays:[2,4] }
 ];
 /* Risk / cadence categories surfaced in the multi-select filter (values match record _sev). */
 const RISK_OPTIONS = [
