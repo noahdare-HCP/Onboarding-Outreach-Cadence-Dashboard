@@ -20,7 +20,6 @@
   header.app .sub { font-size:12px; color:#b6c2d4; margin-top:3px; }
   .topactions { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
   .wrap { max-width:1600px; margin:0 auto; padding:18px 24px 60px; }
-
   button,.btn { font:inherit; cursor:pointer; border-radius:8px; border:1px solid var(--line); background:#fff; color:var(--ink); padding:8px 14px; font-weight:550; transition:background .12s,border-color .12s; }
   button:hover { background:#f8fafc; }
   .btn.primary { background:var(--brand); border-color:var(--brand); color:#fff; }
@@ -28,7 +27,6 @@
   .btn.ghost-light { background:transparent; border-color:#475569; color:#e2e8f0; }
   .btn.ghost-light:hover { background:rgba(255,255,255,.08); }
   .btn.sm { padding:5px 10px; font-size:12px; }
-
   .panel { background:var(--panel); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); }
   .panel + .panel { margin-top:16px; }
   .panel-h { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--line); cursor:pointer; user-select:none; }
@@ -37,17 +35,14 @@
   .collapsed .panel-b { display:none; }
   .caret { transition:transform .15s; color:var(--muted); }
   .collapsed .caret { transform:rotate(-90deg); }
-
   .banner { background:#fff7ed; border:1px solid #fdba74; color:#9a3412; border-radius:10px; padding:10px 14px; font-size:13px; margin-bottom:16px; display:none; }
   .banner.show { display:block; }
-
   .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:16px; }
   .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow); }
   .card .v { font-size:26px; font-weight:700; line-height:1.1; }
   .card .l { font-size:12px; color:var(--muted); margin-top:4px; }
   .card.urgent .v { color:var(--urgent); }
   .card.caution .v { color:var(--caution); }
-
   .filters { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; }
   .field { display:flex; flex-direction:column; gap:4px; }
   .field label { font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); font-weight:600; }
@@ -59,15 +54,14 @@
   .multi-menu .row { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:6px; cursor:pointer; }
   .multi-menu .row:hover { background:#f1f5f9; }
   .multi-menu .tools { display:flex; gap:6px; padding:4px 4px 8px; border-bottom:1px solid var(--line); margin-bottom:6px; }
-
   .tablewrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); background:#fff; }
   table { border-collapse:collapse; width:100%; font-size:13px; }
   thead th { position:sticky; top:0; background:#f8fafc; text-align:left; padding:10px 12px; font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); border-bottom:1px solid var(--line); cursor:pointer; white-space:nowrap; }
   thead th .arrow { font-size:10px; color:var(--brand); }
   tbody td { padding:10px 12px; border-bottom:1px solid #eef2f7; vertical-align:top; }
   tbody tr:hover { background:#f8fafc; }
-  tbody tr.sev-urgent { box-shadow:inset 3px 0 0 var(--urgent); }
-  tbody tr.sev-caution { box-shadow:inset 3px 0 0 var(--caution); }
+  tbody tr.sev-urgent, tbody tr.sev-unresponsive { box-shadow:inset 3px 0 0 var(--urgent); }
+  tbody tr.sev-due, tbody tr.sev-caution { box-shadow:inset 3px 0 0 var(--caution); }
   .badge { display:inline-block; padding:2px 9px; border-radius:999px; font-size:12px; font-weight:650; white-space:nowrap; }
   .badge.ok { background:var(--ok-bg); color:var(--ok); }
   .badge.caution { background:var(--caution-bg); color:var(--caution); }
@@ -78,11 +72,12 @@
   .mono { font-variant-numeric:tabular-nums; color:#475569; }
   .summary { color:#334155; }
   .summary .more { color:var(--brand); cursor:pointer; font-size:12px; font-weight:600; }
+  .actlink { color:var(--brand); cursor:pointer; font-size:11px; font-weight:600; }
+  .actlink:hover { text-decoration:underline; }
   .notesfull { display:none; margin-top:6px; color:var(--muted); font-size:12px; white-space:pre-wrap; border-left:2px solid var(--line); padding-left:8px; }
   .notesfull.show { display:block; }
   .empty { padding:50px; text-align:center; color:var(--muted); }
   .src-tag { font-size:10px; color:var(--muted); display:block; margin-top:2px; }
-
   table.cfg { width:auto; font-size:13px; }
   table.cfg th, table.cfg td { padding:6px 10px; border-bottom:1px solid var(--line); text-align:left; }
   table.cfg input[type=number] { width:72px; padding:5px 8px; border:1px solid var(--line); border-radius:6px; }
@@ -108,13 +103,9 @@
     <button class="btn primary sm" id="sheetRefresh">Refresh from Sheet</button>
   </div>
 </header>
-
 <div class="wrap">
-
   <div class="banner" id="banner"></div>
-
   <div class="cards" id="cards"></div>
-
   <!-- Filters -->
   <div class="panel" id="filtersPanel">
     <div class="panel-b">
@@ -123,51 +114,53 @@
           <label>Rep (multi-select)</label>
           <button class="multi-toggle" id="repToggle"><span id="repLabel">All reps</span><span class="caret">&#9662;</span></button>
           <div class="multi-menu" id="repMenu">
-            <div class="tools"><button class="btn sm" id="repAll">Select all</button><button class="btn sm" id="repNone">Clear</button></div>
+            <div class="tools"><button class="btn sm" data-all="rep">Select all</button><button class="btn sm" data-none="rep">Clear</button></div>
             <div id="repList"></div>
           </div>
         </div>
-        <div class="field">
-          <label>Risk / cadence</label>
-          <select id="riskFilter">
-            <option value="all">All</option>
-            <option value="cadence">Needs cadence action</option>
-            <option value="caution">Caution &amp; up</option>
-            <option value="urgent">Urgent only</option>
-          </select>
+        <div class="field multi" id="riskMulti">
+          <label>Risk / cadence (multi-select)</label>
+          <button class="multi-toggle" id="riskToggle"><span id="riskLabel">All</span><span class="caret">&#9662;</span></button>
+          <div class="multi-menu" id="riskMenu">
+            <div class="tools"><button class="btn sm" data-all="risk">Select all</button><button class="btn sm" data-none="risk">Clear</button></div>
+            <div id="riskList"></div>
+          </div>
         </div>
-        <div class="field">
-          <label>Status</label><select id="statusFilter"><option value="all">All statuses</option></select>
+        <div class="field multi" id="statusMulti">
+          <label>Status (multi-select)</label>
+          <button class="multi-toggle" id="statusToggle"><span id="statusLabel">All statuses</span><span class="caret">&#9662;</span></button>
+          <div class="multi-menu" id="statusMenu">
+            <div class="tools"><button class="btn sm" data-all="status">Select all</button><button class="btn sm" data-none="status">Clear</button></div>
+            <div id="statusList"></div>
+          </div>
         </div>
-        <div class="field">
-          <label>Sub-status</label><select id="subFilter"><option value="all">All sub-statuses</option></select>
+        <div class="field multi" id="subMulti">
+          <label>Sub-status (multi-select)</label>
+          <button class="multi-toggle" id="subToggle"><span id="subLabel">All sub-statuses</span><span class="caret">&#9662;</span></button>
+          <div class="multi-menu" id="subMenu">
+            <div class="tools"><button class="btn sm" data-all="sub">Select all</button><button class="btn sm" data-none="sub">Clear</button></div>
+            <div id="subList"></div>
+          </div>
         </div>
         <div class="field">
           <label>Search</label><input type="text" id="search" placeholder="Org ID, case #, customer, notes&hellip;" />
         </div>
-        <div class="field">
-          <label>As of date</label><input type="date" id="asOf" />
-        </div>
       </div>
     </div>
   </div>
-
   <!-- Config -->
   <div class="panel collapsed" id="cfgPanel">
     <div class="panel-h" data-toggle="cfgPanel"><h2>Configuration &mdash; column mapping, cadence rules &amp; risk thresholds</h2><span class="caret">&#9662;</span></div>
     <div class="panel-b">
-      <p class="help">Working days = Mon&ndash;Fri only (weekends excluded). The day count uses status-change tracking (it resets each time a case's status/sub-status changes); before any change is observed it falls back to days since the case opened, labelled accordingly.</p>
-
+      <p class="help">Working days = Mon&ndash;Fri only (weekends excluded). The day count uses status-change tracking (it resets each time a case's status/sub-status changes); before any change is observed it falls back to days since the case opened, labelled accordingly. The dashboard always evaluates against today's date.</p>
       <h3 style="font-size:13px;margin:4px 0 8px;">Column mapping</h3>
       <div class="grid2" id="mapGrid"></div>
-
       <h3 style="font-size:13px;margin:22px 0 6px;">Outreach cadence rules</h3>
-      <p class="help">Flags fire on these Status + Sub-Status combinations once a case has sat in the combo for the given number of working days. Matching is case-insensitive and ignores stage suffixes like &ldquo;#1&rdquo;.</p>
+      <p class="help">Each rule lists the working-day checkpoints when outreach is expected for a Status + Sub-Status combo (e.g. <b>1, 3, 5</b> = reach out every other day for three attempts). Matching is case-insensitive and ignores stage suffixes like &ldquo;#1&rdquo;. Reps can mark an outreach done from the table: the case then shows <b>Outreach completed</b> until the next checkpoint, when it re-flags as <b>Outreach due</b>. Once every checkpoint is marked done and the case is still open, it flags <b>Urgent &middot; unresponsive through outreach</b>.</p>
       <table class="cadtable" id="cadTable">
-        <thead><tr><th>Status</th><th>Sub-Status</th><th>&ldquo;Pending&rdquo; after</th><th>&ldquo;Should be completed&rdquo; after</th></tr></thead>
+        <thead><tr><th>Status</th><th>Sub-Status</th><th>Outreach checkpoints (working days)</th></tr></thead>
         <tbody></tbody>
       </table>
-
       <h3 style="font-size:13px;margin:22px 0 4px;">Per-status risk thresholds (for cases outside the cadence rules)</h3>
       <p class="help">Surfaces cases sitting too long in any status. Edit any row; defaults apply to statuses not listed.</p>
       <div style="margin-bottom:10px;">
@@ -175,31 +168,29 @@
         <span class="chip" style="margin-left:8px;">Default urgent: <input type="number" id="defUrgent" min="1" style="width:60px;margin-left:4px;" /></span>
       </div>
       <table class="cfg" id="cfgTable"><thead><tr><th>Status</th><th>Caution &ge;</th><th>Urgent &ge;</th></tr></thead><tbody></tbody></table>
-      <p class="footnote"><a id="resetHist" href="javascript:void(0)">Reset status-change tracking</a> &mdash; restarts day counts from the next refresh.</p>
+      <p class="footnote"><a id="resetHist" href="javascript:void(0)">Reset status-change tracking</a> &mdash; restarts day counts from the next refresh. <a id="resetHandled" href="javascript:void(0)" style="margin-left:12px;">Clear marked-outreach history</a> &mdash; resets all &ldquo;outreach done&rdquo; marks.</p>
     </div>
   </div>
-
   <div class="panel" style="margin-top:16px;">
     <div class="tablewrap"><table id="caseTable"><thead><tr id="theadRow"></tr></thead><tbody id="tbody"></tbody></table></div>
     <div class="empty" id="emptyState">Connecting to the live sheet&hellip;</div>
   </div>
-
   <p class="footnote" id="trackNote"></p>
 </div>
-
 <script>
 /* ============================================================
-   Onboarding Outreach Cadence Dashboard  (v2)
+   Onboarding Outreach Cadence Dashboard  (v3)
    ============================================================ */
-
 // Live Salesforce export (gviz CSV endpoint, gid=0). Baked in so reps don't configure anything.
 const EMBEDDED_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1OKNFZWnoGhhxqPfFMQRdarzTZqQ9Ygyq70ssrsiqxsA/gviz/tq?tqx=out:csv&gid=0';
-
 const LS = {
   map:'oocd_map_v2', thresholds:'oocd_thresholds_v2', defaults:'oocd_defaults_v2',
-  reps:'oocd_reps_v2', history:'oocd_history_v2'
+  reps:'oocd_reps_v2', history:'oocd_history_v2',
+  riskSel:'oocd_risksel_v3', statusSel:'oocd_statussel_v3', subSel:'oocd_subsel_v3',
+  handled:'oocd_handled_v3'
 };
-
+/* Statuses hidden by default on load (reps can re-select them in the Status filter). */
+const STATUS_DEFAULT_EXCLUDE = ['passback','pass back','re-engaged','reengaged','re engaged'];
 /* Fields the dashboard understands. Two-pass mapping: exact header match first, then guarded fuzzy. */
 const FIELDS = [
   { key:'orgId',      label:'Org ID',            exact:['org id','organization id','orgid'],            fuzzy:['org id','orgid'] },
@@ -214,31 +205,42 @@ const FIELDS = [
   { key:'statusDate', label:'Status changed date (optional)', exact:['sub-status changed date','status last changed','status changed','status change date','status entered'], fuzzy:['status changed','sub-status changed','status entered'] },
   { key:'timeService',label:'Time service (days, optional)',  exact:['time service (days)','time service','time in service'], fuzzy:['time service'] }
 ];
-
-/* Cadence rules. statuses/subStatuses are lower-case; matched case-insensitively, trimmed, and stage suffixes like "#1" are ignored. */
+/* Cadence rules. statuses/subStatuses are lower-case; matched case-insensitively, trimmed, and stage suffixes like "#1" are ignored.
+   outreachDays = the working-day marks at which an outreach is expected. The rep marks each one done from the table. */
 const CADENCE_RULES = [
-  // 1 working day -> Pending, 3 working days -> Should be completed
-  { statuses:['new','introduction'], subStatuses:['rescheduled'],                 pending:1, due:3 },
-  { statuses:['coaching'],           subStatuses:['waiting for pro'],             pending:1, due:3 },
-  { statuses:['coaching'],           subStatuses:['rescheduled'],                 pending:1, due:3 },
-  // 2 working days -> Pending, 6 working days -> Should be completed
-  { statuses:['onboarding'],         subStatuses:['waiting for pro'],             pending:2, due:6 },
-  { statuses:['onboarding'],         subStatuses:['process build in progress'],   pending:2, due:6 },
-  { statuses:['data confirmation'],  subStatuses:['process build in progress'],   pending:2, due:6 },
-  { statuses:['coaching'],           subStatuses:['additional call required'],    pending:2, due:6 }
+  // First outreach on day 1, then every other working day through day 3.
+  { statuses:['new','introduction'], subStatuses:['rescheduled'],                 outreachDays:[1,3] },
+  { statuses:['coaching'],           subStatuses:['waiting for pro'],             outreachDays:[1,3] },
+  { statuses:['coaching'],           subStatuses:['rescheduled'],                 outreachDays:[1,3] },
+  // First outreach on day 2, then every other working day through day 6.
+  { statuses:['onboarding'],         subStatuses:['waiting for pro'],             outreachDays:[2,4,6] },
+  { statuses:['onboarding'],         subStatuses:['process build in progress'],   outreachDays:[2,4,6] },
+  { statuses:['data confirmation'],  subStatuses:['process build in progress'],   outreachDays:[2,4,6] },
+  { statuses:['coaching'],           subStatuses:['additional call required'],    outreachDays:[2,4,6] }
 ];
-
+/* Risk / cadence categories surfaced in the multi-select filter (values match record _sev). */
+const RISK_OPTIONS = [
+  { value:'unresponsive', label:'Unresponsive through outreach' },
+  { value:'due',          label:'Outreach due' },
+  { value:'urgent',       label:'Urgent · long in status' },
+  { value:'completed',    label:'Outreach completed' },
+  { value:'caution',      label:'Caution · long in status' },
+  { value:'ok',           label:'On track' }
+];
 let RAW = { headers:[], rows:[] };
 let MAP = load(LS.map, {});
 let TH  = load(LS.thresholds, {});
 let DEF = load(LS.defaults, { caution:5, urgent:10 });
-let SEL_REPS = load(LS.reps, null);
-let HIST = load(LS.history, {});
+let SEL_REPS   = load(LS.reps, null);
+let SEL_RISK   = load(LS.riskSel, null);
+let SEL_STATUS = load(LS.statusSel, undefined); // undefined => apply default exclusion on first load
+let SEL_SUB    = load(LS.subSel, null);
+let HIST    = load(LS.history, {});
+let HANDLED = load(LS.handled, {});
+let VIEW_ROWS = [];
 let sortKey = 'risk', sortDir = 'desc';
-
 function load(k,f){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):f; }catch(e){ return f; } }
 function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
-
 /* ---------- CSV parser ---------- */
 function parseCSV(text){
   text = text.replace(/^﻿/, '');
@@ -259,7 +261,6 @@ function parseCSV(text){
   const objs=cleaned.slice(1).map(r=>{ const o={}; headers.forEach((h,idx)=>o[h]=(r[idx]!==undefined?r[idx]:'').trim()); return o; });
   return { headers, rows:objs };
 }
-
 /* ---------- two-pass auto-map ---------- */
 function autoMap(headers){
   const lc = headers.map(h=>h.toLowerCase().trim());
@@ -287,7 +288,6 @@ function autoMap(headers){
   });
   return m;
 }
-
 /* ---------- dates & working days ---------- */
 function parseDate(s){
   if(!s) return null; s=String(s).trim(); if(!s) return null;
@@ -305,7 +305,6 @@ function workingDaysBetween(start,end){
   while(cur<=e){ const dow=cur.getDay(); if(dow!==0&&dow!==6) count++; cur.setDate(cur.getDate()+1); }
   return Math.max(0,count-1); // entry day counts as 0 elapsed working days
 }
-
 /* ---------- records ---------- */
 function getVal(row,key){ const c=MAP[key]; return c?(row[c]||'').trim():''; }
 function buildRecords(){
@@ -316,14 +315,15 @@ function buildRecords(){
     modified:getVal(row,'modified')
   }));
 }
-
+function caseId(r){ return r.caseNumber || r.orgId || (r.customer+'|'+r.status); }
+function comboKey(r){ return (r.status||'')+'||'+(r.subStatus||''); }
 /* ---------- snapshot tracking ---------- */
-function updateHistory(records, asOf){
-  const stamp=(asOf||todayLocal()).toISOString().slice(0,10);
+function updateHistory(records){
+  const stamp=todayLocal().toISOString().slice(0,10);
   records.forEach(r=>{
-    const id = r.caseNumber || r.orgId || (r.customer+'|'+r.status);
+    const id = caseId(r);
     if(!id) return;
-    const key=(r.status||'')+'||'+(r.subStatus||'');
+    const key=comboKey(r);
     const prev=HIST[id];
     if(!prev || prev.key!==key){ HIST[id]={key, firstSeen:stamp, lastSeen:stamp}; }
     else { prev.lastSeen=stamp; }
@@ -332,30 +332,37 @@ function updateHistory(records, asOf){
 }
 function statusEnteredInfo(rec){
   const sd=parseDate(rec.statusDate); if(sd) return {date:sd, src:'SF field'};
-  const id=rec.caseNumber || rec.orgId || (rec.customer+'|'+rec.status);
+  const id=caseId(rec);
   const h=HIST[id]; if(h&&h.firstSeen) return {date:parseDate(h.firstSeen), src:'tracked'};
   const cd=parseDate(rec.created); if(cd) return {date:cd, src:'since opened'};
   return {date:null, src:'n/a'};
 }
-
-/* ---------- cadence & risk ---------- */
+/* ---------- cadence, handled-outreach & risk ---------- */
 function norm(s){ return (s||'').toLowerCase().trim(); }
-function cadenceFor(status, subStatus, workdays){
-  if(workdays==null) return null;
+function cadenceRuleFor(status, subStatus){
   const st=norm(status), sub=norm(subStatus);
   const stBase=st.replace(/\s*#\d+\s*$/,''); // "coaching #1" -> "coaching"
   for(const r of CADENCE_RULES){
-    if((r.statuses.includes(st)||r.statuses.includes(stBase)) && r.subStatuses.includes(sub)){
-      if(workdays>=r.due) return {state:'due', label:'Outreach cadence should be completed', rule:r};
-      if(workdays>=r.pending) return {state:'pending', label:'Pending outreach cadence', rule:r};
-      return {state:'within', label:'', rule:r}; // matched a rule but below first trigger
-    }
+    if((r.statuses.includes(st)||r.statuses.includes(stBase)) && r.subStatuses.includes(sub)) return r;
   }
   return null;
 }
+function handledCountFor(rec){
+  const id=caseId(rec); if(!id) return 0;
+  const h=HANDLED[id];
+  return (h && h.key===comboKey(rec)) ? (h.count||0) : 0;
+}
+function adjustOutreach(rec, delta){
+  const id=caseId(rec); if(!id) return;
+  const key=comboKey(rec);
+  let next=handledCountFor(rec)+delta;
+  if(next<0) next=0;
+  HANDLED[id]={key, count:next};
+  save(LS.handled,HANDLED);
+  render();
+}
 function thresholdsFor(status){ const t=TH[status]; return { caution:(t&&t.caution!=null)?t.caution:DEF.caution, urgent:(t&&t.urgent!=null)?t.urgent:DEF.urgent }; }
 function genericRisk(workdays,status){ if(workdays==null) return 'ok'; const t=thresholdsFor(status); if(workdays>=t.urgent) return 'urgent'; if(workdays>=t.caution) return 'caution'; return 'ok'; }
-
 /* ---------- summary ---------- */
 function summarize(notes){
   if(!notes) return '<span style="color:var(--muted)">No notes</span>';
@@ -369,45 +376,57 @@ function summarize(notes){
   return escapeHtml(pick);
 }
 function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
 /* ============================================================ RENDER ============================================================ */
 const TABLE_COLS = [
   {key:'orgId',label:'Org ID'},{key:'caseNumber',label:'Case #'},{key:'customer',label:'Customer'},
   {key:'rep',label:'Rep'},{key:'status',label:'Status'},{key:'subStatus',label:'Sub-Status'},
   {key:'workdays',label:'Work days in status'},{key:'risk',label:'Risk / Cadence'},{key:'summary',label:'Where it stands / next'}
 ];
-const SEV_ORDER = { 'due':5, 'urgent':4, 'pending':3, 'caution':2, 'ok':1 };
-
+const SEV_ORDER = { 'unresponsive':6, 'due':5, 'urgent':4, 'pending':3, 'caution':2, 'completed':1, 'ok':1 };
 function computeView(){
-  const asOf = parseDate(document.getElementById('asOf').value) || todayLocal();
+  const asOf = todayLocal();
   const recs = buildRecords();
   recs.forEach(r=>{
     const info=statusEnteredInfo(r);
     r._enteredSrc=info.src;
     r._workdays = info.date ? workingDaysBetween(info.date, asOf) : null;
-    r._cad = cadenceFor(r.status, r.subStatus, r._workdays);
-    r._gen = genericRisk(r._workdays, r.status);
-    // severity = max of cadence + generic
-    if(r._cad && r._cad.state==='due') r._sev='due';
-    else if(r._gen==='urgent') r._sev='urgent';
-    else if(r._cad && r._cad.state==='pending') r._sev='pending';
-    else if(r._gen==='caution') r._sev='caution';
-    else r._sev='ok';
+    const rule=cadenceRuleFor(r.status, r.subStatus);
+    r._rule=rule;
+    r._cad=null; r._outreach=null;
+    if(rule && r._workdays!=null){
+      const sched=rule.outreachDays;
+      const total=sched.length;
+      const reached=sched.filter(d=>r._workdays>=d).length;   // checkpoints due by now
+      let handled=handledCountFor(r);
+      if(handled>reached) handled=reached;                     // can't have handled more outreach than is due
+      let state;
+      if(reached===0) state='within';                          // before the first outreach day
+      else if(handled>=total) state='unresponsive';            // all outreach attempts made, still open
+      else if(handled>=reached) state='completed';             // current outreach handled; waiting for next checkpoint
+      else state='due';                                        // outreach expected now
+      r._cad={state};
+      r._outreach={ total, reached, handled, dueDay:sched[handled]||null };
+    }
+    r._gen=genericRisk(r._workdays, r.status);
+    const cs=r._cad?r._cad.state:null;
+    let sev;
+    if(cs==='unresponsive') sev='unresponsive';
+    else if(cs==='due') sev='due';
+    else if(r._gen==='urgent') sev='urgent';
+    else if(cs==='completed') sev='completed';
+    else if(r._gen==='caution') sev='caution';
+    else sev='ok';
+    r._sev=sev;
   });
   return recs;
 }
 function applyFilters(recs){
-  const risk=document.getElementById('riskFilter').value;
-  const status=document.getElementById('statusFilter').value;
-  const sub=document.getElementById('subFilter').value;
   const q=document.getElementById('search').value.toLowerCase().trim();
   return recs.filter(r=>{
     if(SEL_REPS && !SEL_REPS.includes(r.rep)) return false;
-    if(status!=='all' && r.status!==status) return false;
-    if(sub!=='all' && r.subStatus!==sub) return false;
-    if(risk==='cadence' && !(r._cad && (r._cad.state==='pending'||r._cad.state==='due'))) return false;
-    if(risk==='urgent' && r._sev!=='due' && r._sev!=='urgent') return false;
-    if(risk==='caution' && (r._sev==='ok')) return false;
+    if(SEL_STATUS && !SEL_STATUS.includes(r.status)) return false;
+    if(SEL_SUB && !SEL_SUB.includes(r.subStatus)) return false;
+    if(SEL_RISK && !SEL_RISK.includes(r._sev)) return false;
     if(q){ const hay=(r.orgId+' '+r.caseNumber+' '+r.customer+' '+r.rep+' '+r.status+' '+r.subStatus+' '+r.notes).toLowerCase(); if(!hay.includes(q)) return false; }
     return true;
   });
@@ -427,39 +446,50 @@ function render(){
   document.getElementById('emptyState').classList.toggle('hidden',hasData);
   document.getElementById('caseTable').classList.toggle('hidden',!hasData);
   if(!hasData){ document.getElementById('cards').innerHTML=''; return; }
-
   const all=computeView();
   const filtered=sortRecs(applyFilters(all));
+  VIEW_ROWS=filtered;
   const scoped=all.filter(r=>!SEL_REPS||SEL_REPS.includes(r.rep));
-
   const due=scoped.filter(r=>r._cad&&r._cad.state==='due').length;
-  const pending=scoped.filter(r=>r._cad&&r._cad.state==='pending').length;
+  const unresp=scoped.filter(r=>r._cad&&r._cad.state==='unresponsive').length;
   const atRisk=scoped.filter(r=>r._sev==='urgent').length;
   const valid=scoped.filter(r=>r._workdays!=null);
   const longest=valid.length?Math.max(...valid.map(r=>r._workdays)):'—';
   document.getElementById('cards').innerHTML=`
     <div class="card"><div class="v">${scoped.length}</div><div class="l">Open cases</div></div>
-    <div class="card urgent"><div class="v">${due}</div><div class="l">Cadence due now</div></div>
-    <div class="card caution"><div class="v">${pending}</div><div class="l">Pending cadence</div></div>
-    <div class="card urgent"><div class="v">${atRisk}</div><div class="l">At risk (long in status)</div></div>
+    <div class="card urgent"><div class="v">${due}</div><div class="l">Outreach due now</div></div>
+    <div class="card urgent"><div class="v">${unresp}</div><div class="l">Unresponsive through outreach</div></div>
+    <div class="card caution"><div class="v">${atRisk}</div><div class="l">At risk (long in status)</div></div>
     <div class="card"><div class="v">${longest}</div><div class="l">Longest in status (wd)</div></div>`;
-
   const thead=document.getElementById('theadRow');
   thead.innerHTML=TABLE_COLS.map(c=>{ const a=sortKey===c.key?`<span class="arrow">${sortDir==='asc'?'▲':'▼'}</span>`:''; return `<th data-sort="${c.key}">${c.label} ${a}</th>`; }).join('');
   thead.querySelectorAll('th').forEach(th=>th.onclick=()=>{ const k=th.dataset.sort; if(sortKey===k) sortDir=sortDir==='asc'?'desc':'asc'; else{ sortKey=k; sortDir=(k==='workdays'||k==='risk')?'desc':'asc'; } render(); });
-
   const tbody=document.getElementById('tbody');
   if(!filtered.length){ tbody.innerHTML=`<tr><td colspan="${TABLE_COLS.length}" style="padding:30px;text-align:center;color:var(--muted)">No cases match the current filters.</td></tr>`; return; }
   tbody.innerHTML=filtered.map((r,i)=>{
     const wd=r._workdays==null?'<span style="color:var(--muted)">—</span>':r._workdays;
-    let riskCell;
-    if(r._cad && r._cad.state==='due') riskCell=`<span class="badge urgent">Outreach cadence should be completed</span>`;
-    else if(r._cad && r._cad.state==='pending') riskCell=`<span class="badge caution">Pending outreach cadence</span>`;
-    else if(r._sev==='urgent') riskCell=`<span class="badge urgent">Urgent &middot; long in status</span>`;
-    else if(r._sev==='caution') riskCell=`<span class="badge caution">Caution &middot; long in status</span>`;
-    else riskCell=`<span class="badge ok">On track</span>`;
+    const cad=r._cad, o=r._outreach;
+    let riskCell, ctrl='';
+    if(cad && cad.state==='unresponsive'){
+      riskCell=`<span class="badge urgent">Urgent &middot; unresponsive through outreach</span>`;
+      ctrl=`<span class="src-tag">all ${o.total} outreach attempts marked done &middot; <a class="actlink" data-act="undo" data-i="${i}">undo last</a></span>`;
+    } else if(cad && cad.state==='due'){
+      riskCell=`<span class="badge caution">Outreach due</span>`;
+      ctrl=`<div style="margin-top:6px;"><button class="btn sm" data-act="done" data-i="${i}">Mark outreach done</button></div>`
+          +`<span class="src-tag">attempt ${o.handled+1} of ${o.total} &middot; due at ${o.dueDay} wd</span>`;
+    } else if(r._gen==='urgent'){
+      riskCell=`<span class="badge urgent">Urgent &middot; long in status</span>`;
+    } else if(cad && cad.state==='completed'){
+      riskCell=`<span class="badge ok">Outreach completed</span>`;
+      ctrl=`<span class="src-tag">${o.handled} of ${o.total} done &middot; next at ${o.dueDay} wd &middot; <a class="actlink" data-act="undo" data-i="${i}">undo</a></span>`;
+    } else if(r._gen==='caution'){
+      riskCell=`<span class="badge caution">Caution &middot; long in status</span>`;
+    } else {
+      riskCell=`<span class="badge ok">On track</span>`;
+      if(cad && cad.state==='within' && o.dueDay!=null) ctrl=`<span class="src-tag">first outreach at ${o.dueDay} wd</span>`;
+    }
     const summ=summarize(r.notes);
-    const moreBtn=r.notes?`<span class="more" data-i="${i}">notes</span>`:'';
+    const moreBtn=r.notes?`<span class="more" data-note="${i}">notes</span>`:'';
     return `<tr class="sev-${r._sev}">
       <td class="mono">${escapeHtml(r.orgId)||'&mdash;'}</td>
       <td class="mono">${escapeHtml(r.caseNumber)||'&mdash;'}</td>
@@ -468,24 +498,65 @@ function render(){
       <td><span class="chip">${escapeHtml(r.status)||'&mdash;'}</span></td>
       <td>${escapeHtml(r.subStatus)||'&mdash;'}</td>
       <td><span class="daycell">${wd}</span><span class="src-tag">${r._enteredSrc}</span></td>
-      <td>${riskCell}</td>
+      <td>${riskCell}${ctrl}</td>
       <td><div class="summary">${summ} ${moreBtn}</div><div class="notesfull" id="nf-${i}">${escapeHtml(r.notes||'')}</div></td>
     </tr>`;
   }).join('');
-  tbody.querySelectorAll('.more').forEach(el=>el.onclick=()=>document.getElementById('nf-'+el.dataset.i).classList.toggle('show'));
+  tbody.querySelectorAll('[data-note]').forEach(el=>el.onclick=()=>document.getElementById('nf-'+el.dataset.note).classList.toggle('show'));
+  tbody.querySelectorAll('[data-act]').forEach(el=>el.onclick=()=>{ const rec=VIEW_ROWS[+el.dataset.i]; if(!rec) return; adjustOutreach(rec, el.dataset.act==='done'?1:-1); });
 }
-
-/* ============================================================ UI ============================================================ */
+/* ============================================================ FILTERS (multi-select) ============================================================ */
 function uniqueVals(key){ const s=new Set(); buildRecords().forEach(r=>{ if(r[key]) s.add(r[key]); }); return [...s].sort(); }
-function renderRepMenu(){
-  const reps=uniqueVals('rep'); const list=document.getElementById('repList');
-  if(SEL_REPS) SEL_REPS=SEL_REPS.filter(r=>reps.includes(r));
-  list.innerHTML=reps.map(r=>`<label class="row"><input type="checkbox" value="${escapeHtml(r)}" ${(!SEL_REPS||SEL_REPS.includes(r))?'checked':''}/> ${escapeHtml(r)}</label>`).join('')||'<div style="padding:8px;color:var(--muted)">No rep/owner column in the sheet yet</div>';
-  list.querySelectorAll('input').forEach(cb=>cb.onchange=()=>{ const checks=[...list.querySelectorAll('input')]; const sel=checks.filter(c=>c.checked).map(c=>c.value); SEL_REPS=(sel.length===checks.length)?null:sel; save(LS.reps,SEL_REPS); updateRepLabel(reps); render(); });
-  updateRepLabel(reps);
+function renderMultiList(listEl, options, sel, onChange, emptyMsg){
+  listEl.innerHTML = options.length
+    ? options.map(o=>`<label class="row"><input type="checkbox" value="${escapeHtml(o.value)}" ${(!sel||sel.includes(o.value))?'checked':''}/> ${escapeHtml(o.label)}</label>`).join('')
+    : `<div style="padding:8px;color:var(--muted)">${emptyMsg}</div>`;
+  listEl.querySelectorAll('input').forEach(cb=>cb.onchange=()=>{
+    const checks=[...listEl.querySelectorAll('input')];
+    const s=checks.filter(c=>c.checked).map(c=>c.value);
+    onChange(s.length===checks.length ? null : s);
+  });
 }
-function updateRepLabel(reps){ const l=document.getElementById('repLabel'); if(!SEL_REPS||SEL_REPS.length===reps.length) l.textContent='All reps'; else if(!SEL_REPS.length) l.textContent='None selected'; else if(SEL_REPS.length===1) l.textContent=SEL_REPS[0]; else l.textContent=SEL_REPS.length+' reps selected'; }
-function fillSelect(id,key,allLabel){ const sel=document.getElementById(id); const cur=sel.value; sel.innerHTML=`<option value="all">${allLabel}</option>`+uniqueVals(key).map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join(''); if([...sel.options].some(o=>o.value===cur)) sel.value=cur; }
+function setListLabel(name, sel, options, allLabel, noun){
+  const el=document.getElementById(name+'Label');
+  const total=options.length;
+  if(!sel || sel.length===total){ el.textContent=allLabel; return; }
+  if(!sel.length){ el.textContent='None selected'; return; }
+  if(sel.length===1){ const o=options.find(x=>x.value===sel[0]); el.textContent=o?o.label:sel[0]; return; }
+  el.textContent=sel.length+' '+noun+' selected';
+}
+function renderFilters(){
+  // Rep
+  const reps=uniqueVals('rep').map(v=>({value:v,label:v}));
+  if(SEL_REPS) SEL_REPS=SEL_REPS.filter(r=>reps.some(o=>o.value===r));
+  renderMultiList(document.getElementById('repList'), reps, SEL_REPS, s=>{ SEL_REPS=s; save(LS.reps,s); setListLabel('rep',SEL_REPS,reps,'All reps','reps'); render(); }, 'No rep/owner column in the sheet yet');
+  setListLabel('rep',SEL_REPS,reps,'All reps','reps');
+  // Risk / cadence
+  renderMultiList(document.getElementById('riskList'), RISK_OPTIONS, SEL_RISK, s=>{ SEL_RISK=s; save(LS.riskSel,s); setListLabel('risk',SEL_RISK,RISK_OPTIONS,'All','categories'); render(); }, '');
+  setListLabel('risk',SEL_RISK,RISK_OPTIONS,'All','categories');
+  // Status (default-exclude Passback & Re-engaged on first load)
+  const statuses=uniqueVals('status').map(v=>({value:v,label:v}));
+  if(SEL_STATUS===undefined){
+    const keep=statuses.map(o=>o.value).filter(v=>!STATUS_DEFAULT_EXCLUDE.includes(norm(v)));
+    SEL_STATUS = (keep.length===statuses.length) ? null : keep;  // null = nothing to exclude
+    save(LS.statusSel, SEL_STATUS);
+  } else if(SEL_STATUS){ SEL_STATUS=SEL_STATUS.filter(v=>statuses.some(o=>o.value===v)); }
+  renderMultiList(document.getElementById('statusList'), statuses, SEL_STATUS, s=>{ SEL_STATUS=s; save(LS.statusSel,s); setListLabel('status',SEL_STATUS,statuses,'All statuses','statuses'); render(); }, 'No Status column in the sheet yet');
+  setListLabel('status',SEL_STATUS,statuses,'All statuses','statuses');
+  // Sub-status
+  const subs=uniqueVals('subStatus').map(v=>({value:v,label:v}));
+  if(SEL_SUB) SEL_SUB=SEL_SUB.filter(v=>subs.some(o=>o.value===v));
+  renderMultiList(document.getElementById('subList'), subs, SEL_SUB, s=>{ SEL_SUB=s; save(LS.subSel,s); setListLabel('sub',SEL_SUB,subs,'All sub-statuses','sub-statuses'); render(); }, 'No Sub-Status column in the sheet yet');
+  setListLabel('sub',SEL_SUB,subs,'All sub-statuses','sub-statuses');
+}
+function setAllMulti(name, selectAll){
+  const sel = selectAll ? null : [];
+  if(name==='rep'){ SEL_REPS=sel; save(LS.reps,sel); }
+  else if(name==='risk'){ SEL_RISK=sel; save(LS.riskSel,sel); }
+  else if(name==='status'){ SEL_STATUS=sel; save(LS.statusSel,sel); }
+  else if(name==='sub'){ SEL_SUB=sel; save(LS.subSel,sel); }
+  renderFilters(); render();
+}
 function renderMapping(){
   const grid=document.getElementById('mapGrid');
   grid.innerHTML=FIELDS.map(f=>{ const opts=['<option value="">— not in export —</option>'].concat(RAW.headers.map(h=>`<option value="${escapeHtml(h)}" ${MAP[f.key]===h?'selected':''}>${escapeHtml(h)}</option>`)).join(''); return `<div class="mapfield"><label>${f.label}</label><select data-field="${f.key}">${opts}</select></div>`; }).join('');
@@ -493,7 +564,7 @@ function renderMapping(){
 }
 function renderCadenceTable(){
   const tb=document.querySelector('#cadTable tbody');
-  tb.innerHTML=CADENCE_RULES.map(r=>`<tr><td>${r.statuses.join(' / ')}</td><td>${r.subStatuses.join(' / ')}</td><td>${r.pending} working day${r.pending>1?'s':''}</td><td>${r.due} working days</td></tr>`).join('');
+  tb.innerHTML=CADENCE_RULES.map(r=>`<tr><td>${r.statuses.join(' / ')}</td><td>${r.subStatuses.join(' / ')}</td><td>${r.outreachDays.join(', ')}</td></tr>`).join('');
 }
 function renderThresholds(){
   document.getElementById('defCaution').value=DEF.caution; document.getElementById('defUrgent').value=DEF.urgent;
@@ -512,9 +583,8 @@ function checkSchema(){
     banner.innerHTML=`<b>Heads up:</b> the connected sheet doesn't have a ${missing.join(' or ')} column yet, so ${missing.includes('Status')?'cadence flags':''}${missing.length===2?' and ':''}${missing.includes('Case Owner')?'the rep filter':''} can't fully work. They'll activate automatically once your updated Salesforce export includes ${missing.join(' & ')}. Hit <b>Refresh from Sheet</b> after it syncs.`;
   } else { banner.classList.remove('show'); }
 }
-function refreshAll(){ renderRepMenu(); fillSelect('statusFilter','status','All statuses'); fillSelect('subFilter','subStatus','All sub-statuses'); renderMapping(); renderCadenceTable(); renderThresholds(); checkSchema(); render(); updateTrackNote(); }
+function refreshAll(){ renderFilters(); renderMapping(); renderCadenceTable(); renderThresholds(); checkSchema(); render(); updateTrackNote(); }
 function updateTrackNote(){ const n=Object.keys(HIST).length; document.getElementById('trackNote').innerHTML=`Status-change tracking: <b>${n}</b> case(s) timed via snapshot history. For exact, shared counts, add a "Sub-Status changed date" column to the export and map it in Configuration.`; }
-
 /* ---------- fetch ---------- */
 async function fetchFromSheet(manual){
   const st=document.getElementById('sheetStatus');
@@ -535,8 +605,7 @@ async function fetchFromSheet(manual){
       if(!cur || !RAW.headers.includes(cur)){ if(fresh[f.key]) MAP[f.key]=fresh[f.key]; else if(cur) delete MAP[f.key]; }
     });
     save(LS.map,MAP);
-    const asOf=parseDate(document.getElementById('asOf').value)||todayLocal();
-    updateHistory(buildRecords(),asOf);
+    updateHistory(buildRecords());
     document.getElementById('loadedInfo').textContent=`${RAW.rows.length} open cases · live from Salesforce sheet`;
     st.textContent='Updated '+new Date().toLocaleTimeString();
     refreshAll();
@@ -548,21 +617,23 @@ async function fetchFromSheet(manual){
     if(manual) alert('Could not pull from the Sheet.\n\n'+msg);
   }
 }
-
 /* ---------- events ---------- */
 document.getElementById('sheetRefresh').onclick=()=>fetchFromSheet(true);
-['riskFilter','statusFilter','subFilter','search','asOf'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+document.getElementById('search').addEventListener('input',render);
 document.getElementById('defCaution').addEventListener('change',e=>{ DEF.caution=+e.target.value||5; save(LS.defaults,DEF); render(); });
 document.getElementById('defUrgent').addEventListener('change',e=>{ DEF.urgent=+e.target.value||10; save(LS.defaults,DEF); render(); });
 document.getElementById('resetHist').onclick=()=>{ if(confirm('Clear stored status-change tracking history?')){ HIST={}; save(LS.history,HIST); refreshAll(); } };
-const repMulti=document.getElementById('repMulti');
-document.getElementById('repToggle').onclick=e=>{ e.stopPropagation(); repMulti.classList.toggle('open'); };
-document.addEventListener('click',e=>{ if(!repMulti.contains(e.target)) repMulti.classList.remove('open'); });
-document.getElementById('repAll').onclick=()=>{ SEL_REPS=null; save(LS.reps,null); renderRepMenu(); render(); };
-document.getElementById('repNone').onclick=()=>{ SEL_REPS=[]; save(LS.reps,[]); renderRepMenu(); render(); };
+document.getElementById('resetHandled').onclick=()=>{ if(confirm('Clear all "outreach done" marks?')){ HANDLED={}; save(LS.handled,HANDLED); render(); } };
+// Multi-select dropdowns (rep / risk / status / sub)
+const MULTI_NAMES=['rep','risk','status','sub'];
+MULTI_NAMES.forEach(name=>{
+  const wrap=document.getElementById(name+'Multi');
+  document.getElementById(name+'Toggle').onclick=e=>{ e.stopPropagation(); MULTI_NAMES.forEach(n=>{ if(n!==name) document.getElementById(n+'Multi').classList.remove('open'); }); wrap.classList.toggle('open'); };
+});
+document.addEventListener('click',e=>{ MULTI_NAMES.forEach(name=>{ const w=document.getElementById(name+'Multi'); if(!w.contains(e.target)) w.classList.remove('open'); }); });
+document.querySelectorAll('[data-all]').forEach(b=>b.onclick=()=>setAllMulti(b.dataset.all,true));
+document.querySelectorAll('[data-none]').forEach(b=>b.onclick=()=>setAllMulti(b.dataset.none,false));
 document.querySelectorAll('[data-toggle]').forEach(h=>h.onclick=()=>document.getElementById(h.dataset.toggle).classList.toggle('collapsed'));
-document.getElementById('asOf').value=todayLocal().toISOString().slice(0,10);
-
 // boot: auto-pull immediately
 fetchFromSheet(false);
 </script>
